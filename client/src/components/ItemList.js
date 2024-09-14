@@ -11,7 +11,7 @@ const ItemList = ({item}) => {
     hoverable
     style={{ 
       width: '100%', 
-      maxWidth: '240px', 
+      maxWidth: '240px',
       margin: 'auto' // Centering card
     }}
     cover={
