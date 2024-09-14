@@ -1,4 +1,6 @@
-import React from "react";
+//this a navbar and displaying a Homepage.js dito yung mga outpu
+//connected ito sa DefaultLayout.css
+import React, { useState} from "react";
 import { Layout, Menu } from "antd";
 import { Link } from "react-router-dom";
 import {
@@ -13,23 +15,21 @@ import {
 import "../styles/DefaultLayout.css";
 const { Header, Sider, Content } = Layout;
 
-export default class DefaultLayout extends React.Component {
-  state = {
-    collapsed: false,
+const DefaultLayout =({children}) => {
+  const [collapsed,setCollapsed] = useState(false)
+
+
+  const toggle = () => {
+    setCollapsed(
+      !collapsed);
   };
 
-  toggle = () => {
-    this.setState({
-      collapsed: !this.state.collapsed,
-    });
-  };
 
-  render() {
     return (
       <Layout>
-        <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
+        <Sider trigger={null} collapsible collapsed={collapsed}>
           <div className="logo">
-            <h1 className="text-center text-light font-wight-bold mt-4">POS</h1>
+            <h1 className="text-center text-light font-wight-bold mt-4">Tealerin</h1>
           </div>
           <Menu
             theme="dark"
@@ -56,10 +56,10 @@ export default class DefaultLayout extends React.Component {
         <Layout className="site-layout">
           <Header className="site-layout-background" style={{ padding: 0 }}>
             {React.createElement(
-              this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
+              collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
               {
                 className: "trigger",
-                onClick: this.toggle,
+                onClick: toggle,
               }
             )}
           </Header>
@@ -71,10 +71,11 @@ export default class DefaultLayout extends React.Component {
               minHeight: 280,
             }}
           >
-            {this.props.children}
+            {children}
           </Content>
         </Layout>
       </Layout>
     );
-  }
 }
+
+export default DefaultLayout;
