@@ -1,3 +1,4 @@
+
 #components-layout-demo-custom-trigger .trigger {
   padding: 0 24px;
   font-size: 18px;
@@ -21,6 +22,7 @@
   box-shadow: 0 0 3px #ccc;
   border-radius: 5px;
   margin: 10px;
+  overflow: auto;
 }
 
 .ant-layout-has-sider {
