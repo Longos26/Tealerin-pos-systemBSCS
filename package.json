@@ -7,11 +7,11 @@
     "start": "node server.js",
     "server": "nodemon server.js",
     "seed": "node seeder.js"
-
   },
   "author": "BSCS 3C GC Romar,Yuri,Abie",
   "license": "MIT",
   "dependencies": {
+    "antd": "^5.20.6",
     "body-parser": "^1.20.2",
     "colors": "^1.4.0",
     "cors": "^2.8.5",
