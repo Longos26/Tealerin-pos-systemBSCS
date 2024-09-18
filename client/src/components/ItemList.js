@@ -7,7 +7,7 @@ const ItemList = ({ item }) => {
   const handleAddTOCart = () => {
     dispatch({
       type: "ADD_TO_CART",
-      payload: { ...item, quantity: 1 },
+      payload: item,
     });
   };
   const { Meta } = Card;

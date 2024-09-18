@@ -47,24 +47,21 @@
 }
 
 .ant-layout-header {
-  line-height: 1; /* Changed from 0 to 1 for better text alignment */
+  line-height: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 20px; /* Added padding for better spacing */
 }
 
-.cart-items {
-  display: flex; /* Added to align items horizontally */
-  align-items: center; /* Vertical alignment */
-  padding: 15px 0; /* Adjusted padding for better vertical spacing */
-  margin-right: 20px;
+.cart-item {
+  padding-left: 20px;
+  padding-right: 30px;
+  cursor: pointer;
 }
 
-.cart-items p {
-  margin: 0 10px 0 0; /* Adjusted margins for better spacing */
+.cart-item p {
+  margin-top: 10px;
   font-weight: bold;
-  
 }
 
 .logo-image {
