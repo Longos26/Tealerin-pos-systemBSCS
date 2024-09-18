@@ -3,3 +3,23 @@
 body {
     font-family: "Sora", sans-serif;
 }
+
+.item-button button {
+    margin-top: 20px;
+    width: 100%; /* Make the width responsive */
+    max-width: 200px; /* Set a maximum width */
+    background-color: #0E7B26;
+    color: white;
+}
+
+@media (max-width: 768px) { /* For tablets and small screens */
+    .item-button button {
+        width: 80%; /* Slightly smaller width for smaller screens */
+    }
+}
+
+@media (max-width: 480px) { /* For mobile devices */
+    .item-button button {
+        width: 100%; /* Full width on small screens */
+    }
+}

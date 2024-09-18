@@ -1,15 +1,23 @@
 //eto ang mag didisplay ng data sa Homepage.js
 
 import React from 'react'
-import { Card } from "antd";
-import { EditOutlined, EllipsisOutlined, SettingOutlined,} from '@ant-design/icons';
+import { Button,Card } from "antd";
+import { useDispatch } from 'react-redux';
+//import { EditOutlined, EllipsisOutlined, SettingOutlined,} from '@ant-design/icons';//
 
 const ItemList = ({item}) => {
+  const dispatch = useDispatch();
+  //update cart handler
+  const handleAddTOCart = () => {
+    dispatch({
+      type: "updateCart",
+      payload: item,
+    });
+  };
   const {Meta} = Card;
   return (
 <div style={{ width: '100%', maxWidth: 240,marginTop:10 }}>
   <Card
-    hoverable
     style={{ 
       width: '100%', 
       maxWidth: '320px',
@@ -30,7 +38,7 @@ const ItemList = ({item}) => {
   >
     <Meta title={item.name} />
     <div className='item-button'>
-
+      <Button onClick={() => handleAddTOCart()}>Add to Cart</Button>
     </div>
   </Card>
 </div>

@@ -1,6 +1,7 @@
 //this a navbar and displaying a Homepage.js dito yung mga outpu
 //connected ito sa DefaultLayout.css
 import React, { useState} from "react";
+import {useSelector} from "react-redux";
 import { Layout, Menu } from "antd";
 import { Link } from "react-router-dom";
 import {
@@ -11,11 +12,13 @@ import {
   HomeOutlined,
   CopyOutlined,
   UnorderedListOutlined,
+  ShoppingCartOutlined,
 } from "@ant-design/icons";
 import "../styles/DefaultLayout.css";
 const { Header, Sider, Content } = Layout;
 
 const DefaultLayout =({children}) => {
+  const {cartItems} = useSelector(state => state.rootReducer);
   const [collapsed,setCollapsed] = useState(false)
 
 
@@ -28,9 +31,9 @@ const DefaultLayout =({children}) => {
     return (
       <Layout>
         <Sider trigger={null} collapsible collapsed={collapsed}>
-          <div className="logo">
-            <h1 className="text-center text-light font-wight-bold mt-4">Tealerin</h1>
-          </div>
+        <div className="logo">
+  <img src="./assets/Untitled124.png" alt="Logo" className="logo-image" />
+</div>
           <Menu
             theme="dark"
             mode="inline"
@@ -62,6 +65,11 @@ const DefaultLayout =({children}) => {
                 onClick: toggle,
               }
             )}
+
+            <div className="cart-items">
+              <p>{cartItems.length}</p>
+              <ShoppingCartOutlined />
+            </div>
           </Header>
           <Content
             className="site-layout-background"
