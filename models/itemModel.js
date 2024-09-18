@@ -19,6 +19,10 @@ const itemSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+     size: {
+      type: String,
+      required: true,
+    },
   },
   { timestamp: true }
 );

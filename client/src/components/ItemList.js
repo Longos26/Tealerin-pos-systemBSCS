@@ -3,17 +3,16 @@
 import React from 'react'
 import { Button,Card } from "antd";
 import { useDispatch } from 'react-redux';
-//import { EditOutlined, EllipsisOutlined, SettingOutlined,} from '@ant-design/icons';//
-
 const ItemList = ({item}) => {
   const dispatch = useDispatch();
   //update cart handler
   const handleAddTOCart = () => {
     dispatch({
-      type: "updateCart",
+      type: "ADD_TO_CART",
       payload: item,
     });
   };
+
   const {Meta} = Card;
   return (
 <div style={{ width: '100%', maxWidth: 240,marginTop:10 }}>
