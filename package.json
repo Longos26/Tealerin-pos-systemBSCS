@@ -13,6 +13,7 @@
   "author": "BSCS 3C GC Romar,Yuri,Abie",
   "license": "MIT",
   "dependencies": {
+    "@ant-design/icons": "^5.4.0",
     "antd": "^5.20.6",
     "body-parser": "^1.20.2",
     "colors": "^1.4.0",
@@ -22,6 +23,7 @@
     "express": "^4.19.2",
     "mongoose": "^8.6.1",
     "morgan": "^1.10.0",
-    "nodeman": "^1.1.2"
+    "nodeman": "^1.1.2",
+    "redux-devtools-extension": "^2.13.9"
   }
 }

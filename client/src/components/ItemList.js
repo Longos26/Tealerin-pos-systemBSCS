@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { Card } from "antd";
+import { EditOutlined, EllipsisOutlined, SettingOutlined,} from '@ant-design/icons';
 
 const ItemList = ({item}) => {
   const {Meta} = Card;
@@ -11,7 +12,7 @@ const ItemList = ({item}) => {
     hoverable
     style={{ 
       width: '100%', 
-      maxWidth: '240px',
+      maxWidth: '320px',
       margin: 'auto' // Centering card
     }}
     cover={
@@ -25,12 +26,16 @@ const ItemList = ({item}) => {
         }} 
       />
     }
+   
   >
     <Meta title={item.name} />
+    <div className='item-button'>
+
+    </div>
   </Card>
 </div>
 
   );
 };
 
-export default ItemList
+export default ItemList;
