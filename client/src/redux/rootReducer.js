@@ -1,14 +1,57 @@
-const intialState = {
-  loading: true,
+const initialState = {
+  loading: false,
   cartItems: [],
 };
 
-export const rootReducer = (state = intialState, action) => {
+export const rootReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "ADD_TO_CART":
+    case "SHOW_LOADING":
       return {
         ...state,
-        cartItems: [...state.cartItems, action.payload],
+        loading: true,
+      };
+    case "HIDE_LOADING":
+      return {
+        ...state,
+        loading: false,
+      };
+    case "ADD_TO_CART": {
+      const itemExists = state.cartItems.find(
+        (item) => item._id === action.payload._id
+      );
+      if (itemExists) {
+        // If item exists, update the quantity
+        return {
+          ...state,
+          cartItems: state.cartItems.map((item) =>
+            item._id === action.payload._id
+              ? { ...item, quantity: item.quantity + 1 }
+              : item
+          ),
+        };
+      } else {
+        // If item doesn't exist, add it to the cart
+        return {
+          ...state,
+          cartItems: [...state.cartItems, { ...action.payload, quantity: 1 }],
+        };
+      }
+    }
+    case "UPDATE_CART":
+      return {
+        ...state,
+        cartItems: state.cartItems.map((item) =>
+          item._id === action.payload._id
+            ? { ...item, quantity: action.payload.quantity }
+            : item
+        ),
+      };
+    case "DELETE_FROM_CART":
+      return {
+        ...state,
+        cartItems: state.cartItems.filter(
+          (item) => item._id !== action.payload._id
+        ),
       };
     default:
       return state;
