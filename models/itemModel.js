@@ -1,4 +1,3 @@
-//pang test to have data
 const mongoose = require("mongoose");
 
 const itemSchema = mongoose.Schema(
