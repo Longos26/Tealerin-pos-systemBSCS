@@ -58,6 +58,8 @@ const ItemPage = () => {
       ),
     },
     { title: "Price", dataIndex: "price" },
+    { title: "Size", dataIndex: "size" },
+    { title: "Pieces", dataIndex: "pieces" },
 
     {
       title: "Actions",
@@ -149,11 +151,22 @@ const ItemPage = () => {
             <Form.Item name="name" label="Name">
               <Input />
             </Form.Item>
+            
             <Form.Item name="price" label="Price">
               <Input />
-            </Form.Item>
+              </Form.Item>
+
+              <Form.Item name="size" label="Sizes">
+              <Input />
+              </Form.Item>
+
+              <Form.Item name="pieces" label="Pieces">
+              <Input />
+              </Form.Item>
+
             <Form.Item name="image" label="Image URL">
               <Input />
+
             </Form.Item>
             <Form.Item name="category" label="Category">
               <Select>

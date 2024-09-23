@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from "react";
 import DefaultLayout from "./../components/DefaultLayout";
 import axios from "axios";
-import { Row, Col } from "antd";
+import { Row, Col, Input } from "antd";
 import { useDispatch } from "react-redux";
 import ItemList from "../components/ItemList";
+
 const Homepage = () => {
   const [itemsData, setItemsData] = useState([]);
-  const [selecedCategory, setSelecedCategory] = useState("drinks");
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [searchTerm, setSearchTerm] = useState("");
+
   const categories = [
+    {
+      name: "all",
+      imageUrl: "https://cdn-icons-png.flaticon.com/512/4473/4473598.png",
+    },
     {
       name: "drinks",
       imageUrl: "https://cdn-icons-png.flaticon.com/512/430/430561.png",
@@ -21,25 +28,27 @@ const Homepage = () => {
       imageUrl: "https://cdn-icons-png.flaticon.com/512/1471/1471262.png",
     },
   ];
+
   const dispatch = useDispatch();
 
-  //useEffect
   useEffect(() => {
     const getAllItems = async () => {
       try {
-        dispatch({
-          type: "SHOW_LOADING",
-        });
+        dispatch({ type: "SHOW_LOADING" });
         const { data } = await axios.get("/api/items/get-item");
         setItemsData(data);
         dispatch({ type: "HIDE_LOADING" });
-        console.log(data);
       } catch (error) {
         console.log(error);
       }
     };
     getAllItems();
   }, [dispatch]);
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
   return (
     <DefaultLayout>
       <div className="d-flex">
@@ -47,9 +56,9 @@ const Homepage = () => {
           <div
             key={category.name}
             className={`d-flex category ${
-              selecedCategory === category.name && "category-active"
+              selectedCategory === category.name && "category-active"
             }`}
-            onClick={() => setSelecedCategory(category.name)}
+            onClick={() => setSelectedCategory(category.name)}
           >
             <h4>{category.name}</h4>
             <img
@@ -61,12 +70,23 @@ const Homepage = () => {
           </div>
         ))}
       </div>
+      
+      <Input
+        placeholder="Search items..."
+        value={searchTerm}
+        onChange={handleSearchChange}
+        style={{ margin: "20px 0" }}
+      />
+
       <Row>
         {itemsData
-          .filter((i) => i.category === selecedCategory)
+          .filter((item) =>
+            item.name.toLowerCase().includes(searchTerm.toLowerCase()) && 
+            (item.category === selectedCategory || selectedCategory === "all")
+          )
           .map((item) => (
-            <Col xs={24} lg={6} md={12} sm={6}>
-              <ItemList key={item.id} item={item} />
+            <Col xs={24} lg={6} md={12} sm={6} key={item.id}>
+              <ItemList item={item} />
             </Col>
           ))}
       </Row>

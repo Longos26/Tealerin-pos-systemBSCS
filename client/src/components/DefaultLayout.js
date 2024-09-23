@@ -49,7 +49,7 @@ const DefaultLayout = ({ children }) => {
             <Link to="/items">Items</Link>
           </Menu.Item>
           <Menu.Item key="/customers" icon={<UserOutlined />}>
-            <Link to="/customers">Cutomers</Link>
+            <Link to="/customers">Customers</Link>
           </Menu.Item>
           <Menu.Item key="/logout" icon={<LogoutOutlined />}>
             Logout
