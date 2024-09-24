@@ -40,6 +40,9 @@ const CartPage = () => {
       ),
     },
     { title: "Price", dataIndex: "price" },
+    { title: "Size", dataIndex: "size" },
+    { title: "Pieces", dataIndex: "pieces" },
+
     {
       title: "Quantity",
       dataIndex: "_id",
