@@ -7,7 +7,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import BillsPage from "./pages/BillsPage";
 import CutomerPage from "./pages/CutomerPage";
-
+import AnalyticsPage from "./pages/AnalyticsPage";
 function App() {
   return (
     <>
@@ -42,6 +42,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <BillsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/analytics"
+            element={
+              <ProtectedRoute>
+                <AnalyticsPage />
               </ProtectedRoute>
             }
           />

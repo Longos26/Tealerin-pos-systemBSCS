@@ -15,12 +15,12 @@ const Login = () => {
       });
       const res = await axios.post("/api/users/login", value);
       dispatch({ type: "HIDE_LOADING" });
-      message.success("user login Succesfully");
+      message.success("Login Succesfully");
       localStorage.setItem("auth", JSON.stringify(res.data));
       navigate("/");
     } catch (error) {
       dispatch({ type: "HIDE_LOADING" });
-      message.error("Something Went Wrong");
+      message.error("Invalid Username or Password");
       console.log(error);
     }
   };
@@ -50,8 +50,8 @@ const Login = () => {
 
             <div className="d-flex justify-content-between">
               <p>
-                not a user Please
-                <Link to="/register"> Register Here !</Link>
+                Don't have an Account
+                <Link to="/register"> Sign up</Link>
               </p>
               <Button type="primary" htmlType="submit">
                 Login

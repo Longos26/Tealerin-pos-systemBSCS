@@ -11,13 +11,14 @@ import {
   CopyOutlined,
   UnorderedListOutlined,
   ShoppingCartOutlined,
+  BarChartOutlined
 } from "@ant-design/icons";
 import "../styles/DefaultLayout.css";
 const { Header, Sider, Content } = Layout;
 
 const DefaultLayout = ({ children }) => {
   const navigate = useNavigate();
-  const { cartItems, logout } = useSelector((state) => state.rootReducer);
+  const { cartItems } = useSelector((state) => state.rootReducer);
   const [collapsed, setCollapsed] = useState(false);
 
   const toggle = () => {
@@ -30,10 +31,7 @@ const DefaultLayout = ({ children }) => {
   }, [cartItems]);
 
   const handleLogout = () => {
-    // Add your logout logic here, e.g., calling an API to log out
-    // For demonstration purposes, I'll just navigate to the root route
-    navigate("/");
-    // You may also want to clear the local storage or cookies
+    navigate("/login");
     localStorage.clear();
   };
 
@@ -49,16 +47,29 @@ const DefaultLayout = ({ children }) => {
           defaultSelectedKeys={window.location.pathname}
         >
           <Menu.Item key="/" icon={<HomeOutlined />}>
-            <Link to="/">Home</Link>
+            <Link to="/" style={{ textDecoration: "none", color: "white" }}>
+              Home
+            </Link>
           </Menu.Item>
           <Menu.Item key="/bills" icon={<CopyOutlined />}>
-            <Link to="/bills">Bills</Link>
+            <Link to="/bills" style={{ textDecoration: "none", color: "white" }}>
+              Bills
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="/analytics" icon={<BarChartOutlined />}>
+            <Link to="/analytics" style={{ textDecoration: "none", color: "white" }}>
+            Sales
+            </Link>
           </Menu.Item>
           <Menu.Item key="/items" icon={<UnorderedListOutlined />}>
-            <Link to="/items">Items</Link>
+            <Link to="/items" style={{ textDecoration: "none", color: "white" }}>
+              Items
+            </Link>
           </Menu.Item>
           <Menu.Item key="/customers" icon={<UserOutlined />}>
-            <Link to="/customers">Customers</Link>
+            <Link to="/customers" style={{ textDecoration: "none", color: "white" }}>
+              Customers
+            </Link>
           </Menu.Item>
           <Menu.Item key="/logout" icon={<LogoutOutlined />} onClick={handleLogout}>
             Logout

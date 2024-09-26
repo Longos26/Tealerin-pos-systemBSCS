@@ -114,7 +114,7 @@ const CartPage = () => {
       <div className="d-flex flex-column align-items-end">
         <hr />
         <h3>
-          SUBT TOTAL : $ <b> {subTotal}</b> /-{" "}
+          SUBT TOTAL : ₱ <b> {subTotal}</b> /-{" "}
         </h3>
         <Button type="primary" onClick={() => setBillPopup(true)}>
           Create Invoice
@@ -142,14 +142,14 @@ const CartPage = () => {
           </Form.Item>
           <div className="bill-it">
             <h5>
-              Sub Total : <b>{subTotal}</b>
+              Sub Total : <b>₱{subTotal}</b>
             </h5>
             <h4>
-              TAX
-              <b> {((subTotal / 100) * 10).toFixed(2)}</b>
+              Tax
+              <b> ₱{((subTotal / 100) * 10).toFixed(2)}</b>
             </h4>
             <h3>
-              GRAND TOTAL -{" "}
+              Grand Total - ₱{" "}
               <b>
                 {Number(subTotal) + Number(((subTotal / 100) * 10).toFixed(2))}
               </b>

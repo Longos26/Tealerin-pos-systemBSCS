@@ -3,12 +3,12 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f0f0f0; /* Light gray background */
+    background-color: green; /* Light gray background */
 }
 
 .register-form {
     width: 350px;
-    background-color: #fff;
+    background-color: green;
     padding: 30px; /* Increased padding for a spacious feel */
     border-radius: 12px; /* Slightly larger border radius */
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); /* Softer shadow for depth */

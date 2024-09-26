@@ -121,13 +121,13 @@ const BillsPage = () => {
                       <td />
                       <td />
                       <td className="Rate"><h2>Tax</h2></td>
-                      <td className="payment"><h2>${selectedBill.tax}</h2></td>
+                      <td className="payment"><h2>₱{selectedBill.tax}</h2></td>
                     </tr>
                     <tr className="tabletitle">
                       <td />
                       <td />
                       <td className="Rate"><h2>Grand Total</h2></td>
-                      <td className="payment"><h2><b>${selectedBill.totalAmount}</b></h2></td>
+                      <td className="payment"><h2><b>₱{selectedBill.totalAmount}</b></h2></td>
                     </tr>
                   </tbody>
                 </table>
