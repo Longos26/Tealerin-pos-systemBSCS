@@ -1,20 +1,21 @@
-
+/* Applying Pinterest-like font and dark green color */
 #components-layout-demo-custom-trigger .trigger {
   padding: 0 24px;
   font-size: 18px;
   line-height: 64px;
   cursor: pointer;
   transition: color 0.3s;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
 }
 
 #components-layout-demo-custom-trigger .trigger:hover {
-  color: #1890ff;
+  color: green; 
 }
 
 #components-layout-demo-custom-trigger .logo {
   height: 32px;
   margin: 16px;
-  background: rgba(255, 255, 255, 0.3);
+  background: green;
 }
 
 .site-layout .site-layout-background {
@@ -23,6 +24,7 @@
   border-radius: 5px;
   margin: 10px;
   overflow: auto;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
 }
 
 .ant-layout-has-sider {
@@ -51,17 +53,22 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
 }
 
 .cart-item {
   padding-left: 20px;
   padding-right: 30px;
   cursor: pointer;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  color: green; 
 }
 
 .cart-item p {
   margin-top: 10px;
   font-weight: bold;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  color: green; 
 }
 
 .logo-image {
@@ -70,5 +77,5 @@
   height: auto;
   margin: 16px auto;
   display: block;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
 }
-

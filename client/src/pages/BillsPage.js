@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import DefaultLayout from "../components/DefaultLayout";
 import { useDispatch } from "react-redux";
 import { EyeOutlined } from "@ant-design/icons";
-import { useReactToPrint } from "react-to-print";  // Corrected import
+import { useReactToPrint } from "react-to-print";  
 import axios from "axios";
 import { Modal, Button, Table } from "antd";
 import "../styles/InvoiceStyles.css";
@@ -33,6 +33,8 @@ const BillsPage = () => {
 
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
+    documentTitle: 'Invoice',
+    removeAfterPrint: true
   });
 
   const columns = [
@@ -45,7 +47,7 @@ const BillsPage = () => {
     {
       title: "Actions",
       dataIndex: "_id",
-      render: (id, record) => (
+      render: (_id, record) => (
         <div>
           <EyeOutlined
             style={{ cursor: "pointer" }}
@@ -80,8 +82,8 @@ const BillsPage = () => {
             <center id="top">
               <div className="logo" />
               <div className="info">
-                <h2>Techinfo YT POS</h2>
-                <p> Contact : 123456 | Mumbai Maharashtra</p>
+                <h2>TeaLerin</h2>
+                <p> Contact : 0927-368-5006 | Block 10 Lot 23 Long Road</p>
               </div>
             </center>
             <div id="mid">
@@ -113,7 +115,7 @@ const BillsPage = () => {
                         <td className="tableitem"><p className="itemtext">{item.quantity}</p></td>
                         <td className="tableitem"><p className="itemtext">{item.price}</p></td>
                         <td className="tableitem"><p className="itemtext">{item.quantity * item.price}</p></td>
-                      </tr>
+                      </tr >
                     ))}
                     <tr className="tabletitle">
                       <td />
@@ -133,7 +135,7 @@ const BillsPage = () => {
               <div id="legalcopy">
                 <p className="legal">
                   <strong>Thank you for your order!</strong> 10% GST application on total amount.
-                  Please note that this is a non-refundable amount. For any assistance, please email <b>help@mydomain.com</b>.
+                  Please note that this is a non-refundable amount. For any assistance, please email <b>paolonavarrosa@gmail.com</b>.
                 </p>
               </div>
             </div>

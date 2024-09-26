@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Layout, Menu } from "antd";
-import { Link,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -17,23 +17,32 @@ const { Header, Sider, Content } = Layout;
 
 const DefaultLayout = ({ children }) => {
   const navigate = useNavigate();
-  const { cartItems } = useSelector((state) => state.rootReducer);
+  const { cartItems, logout } = useSelector((state) => state.rootReducer);
   const [collapsed, setCollapsed] = useState(false);
 
   const toggle = () => {
     setCollapsed(!collapsed);
   };
+
   //to get localstorage data
   useEffect(() => {
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
   }, [cartItems]);
 
+  const handleLogout = () => {
+    // Add your logout logic here, e.g., calling an API to log out
+    // For demonstration purposes, I'll just navigate to the root route
+    navigate("/");
+    // You may also want to clear the local storage or cookies
+    localStorage.clear();
+  };
+
   return (
     <Layout>
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div className="logo">
-  <img src="./assets/Untitled124.png" alt="Logo" className="logo-image" />
-</div>
+          <img src="./assets/Untitled124.png" alt="Logo" className="logo-image" />
+        </div>
         <Menu
           theme="dark"
           mode="inline"
@@ -51,7 +60,7 @@ const DefaultLayout = ({ children }) => {
           <Menu.Item key="/customers" icon={<UserOutlined />}>
             <Link to="/customers">Customers</Link>
           </Menu.Item>
-          <Menu.Item key="/logout" icon={<LogoutOutlined />}>
+          <Menu.Item key="/logout" icon={<LogoutOutlined />} onClick={handleLogout}>
             Logout
           </Menu.Item>
         </Menu>

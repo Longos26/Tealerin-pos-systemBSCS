@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { message } from "antd";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-
+import "../styles/Login.css";
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -36,7 +36,9 @@ const Login = () => {
     <>
       <div className="register">
         <div className="regsiter-form">
-          <h1>POS APP</h1>
+          <div className="logo">
+            <img src="./assets/Untitled124.png" alt="Logo" className="logo-image" />
+          </div>
           <h3>Login Page</h3>
           <Form layout="vertical" onFinish={handleSubmit}>
             <Form.Item name="userId" label="User ID">
