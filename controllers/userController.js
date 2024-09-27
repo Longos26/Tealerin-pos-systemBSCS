@@ -4,14 +4,14 @@ const userModal = require("../models/userModel");
 const loginController = async (req, res) => {
   try {
     const { userId, password } = req.body;
+    if (!userId || !password) {
+      return res.status(400).json({ message: "Please provide both userId and password" });
+    }
     const user = await userModal.findOne({ userId, password, verified: true });
     if (user) {
       res.status(200).send(user);
     } else {
-      res.json({
-        message: "Login Fail",
-        user,
-      });
+      res.status(401).json({ message: "Invalid credentials" });
     }
   } catch (error) {
     console.log(error);

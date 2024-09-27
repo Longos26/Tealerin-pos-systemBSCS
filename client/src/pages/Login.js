@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { message } from "antd";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-
+import "../styles/Login.css";
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -15,12 +15,12 @@ const Login = () => {
       });
       const res = await axios.post("/api/users/login", value);
       dispatch({ type: "HIDE_LOADING" });
-      message.success("user login Succesfully");
+      message.success("Login Succesfully");
       localStorage.setItem("auth", JSON.stringify(res.data));
       navigate("/");
     } catch (error) {
       dispatch({ type: "HIDE_LOADING" });
-      message.error("Something Went Wrong");
+      message.error("Invalid Username or Password");
       console.log(error);
     }
   };
@@ -36,7 +36,9 @@ const Login = () => {
     <>
       <div className="register">
         <div className="regsiter-form">
-          <h1>POS APP</h1>
+          <div className="logo">
+            <img src="./assets/Untitled124.png" alt="Logo" className="logo-image" />
+          </div>
           <h3>Login Page</h3>
           <Form layout="vertical" onFinish={handleSubmit}>
             <Form.Item name="userId" label="User ID">
@@ -48,8 +50,8 @@ const Login = () => {
 
             <div className="d-flex justify-content-between">
               <p>
-                not a user Please
-                <Link to="/register"> Register Here !</Link>
+                Don't have an Account
+                <Link to="/register"> Sign up</Link>
               </p>
               <Button type="primary" htmlType="submit">
                 Login

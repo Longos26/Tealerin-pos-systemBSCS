@@ -1,0 +1,138 @@
+.register {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: green; /* Light gray background */
+}
+
+.register-form {
+    width: 350px;
+    background-color: green;
+    padding: 30px; /* Increased padding for a spacious feel */
+    border-radius: 12px; /* Slightly larger border radius */
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); /* Softer shadow for depth */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Smooth hover effect */
+    animation: fadeIn 0.5s ease-in-out; /* Fade in animation */
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px); /* Slight upward entrance */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.register-form:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3); /* Increase shadow on hover */
+}
+
+.register-form h1 {
+    color: #34c759; /* Green color */
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 26px; /* Slightly larger heading */
+    text-align: center; /* Center-align the heading */
+    animation: slideIn 0.5s ease-in-out; /* Slide in animation */
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-20px); /* Slide in from the left */
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.register-form h3 {
+    color: #666;
+    margin-bottom: 20px;
+    text-align: center; /* Center-align the subtitle */
+}
+
+.ant-form {
+    max-width: 100%; /* Allow full width for responsive design */
+    margin: 0 auto;
+}
+
+.ant-form-item {
+    margin-bottom: 25px; /* More spacing between form items */
+}
+
+.ant-form-item label {
+    color: #666;
+    font-weight: bold; /* Make labels bold for clarity */
+    transition: color 0.3s; /* Smooth transition for label color */
+}
+
+.ant-input {
+    height: 45px; /* Slightly taller input field */
+    padding: 12px; /* More padding for comfort */
+    font-size: 16px;
+    border: 1px solid #ddd; /* Softer border color */
+    border-radius: 5px;
+    transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transition on focus */
+}
+
+.ant-input:focus {
+    border-color: #34c759; /* Green focus border */
+    box-shadow: 0 0 10px rgba(52, 199, 89, 0.5);
+    animation: pulse 0.5s infinite alternate; /* Pulse animation on focus */
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 10px rgba(52, 199, 89, 0.5);
+    }
+    100% {
+        box-shadow: 0 0 15px rgba(52, 199, 89, 0.7);
+    }
+}
+
+.ant-btn-primary {
+    background-color: #34c759; /* Green button */
+    border-color: #34c759;
+    color: #fff;
+    height: 45px; /* Slightly taller button */
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s, border-color 0.3s, transform 0.3s; /* Smooth transition */
+}
+
+.ant-btn-primary:hover {
+    background-color: #2f9d4a; /* Darker green on hover */
+    border-color: #2f9d4a;
+    transform: scale(1.05); /* Slightly enlarge button on hover */
+}
+
+.d-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.d-flex p {
+    color: #666;
+    font-size: 14px;
+    margin: 0; /* Remove default margin */
+}
+
+.d-flex a {
+    color: #34c759; /* Link color */
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.d-flex a:hover {
+    color: #2f9d4a; /* Darker green on hover */
+}
