@@ -13,6 +13,7 @@ const BillsPage = () => {
   const [billsData, setBillsData] = useState([]);
   const [popupModal, setPopupModal] = useState(false);
   const [selectedBill, setSelectedBill] = useState(null);
+  const [salesData, setSalesData] = useState({});
 
   const getAllBills = async () => {
     try {
@@ -20,10 +21,23 @@ const BillsPage = () => {
       const { data } = await axios.get("/api/bills/get-bills");
       setBillsData(data);
       dispatch({ type: "HIDE_LOADING" });
+      updateSalesData(data);
     } catch (error) {
       dispatch({ type: "HIDE_LOADING" });
       console.error(error);
     }
+  };
+
+  const updateSalesData = (bills) => {
+    const sales = {};
+    bills.forEach((bill) => {
+      const date = bill.date.toString().substring(0, 10);
+      if (!sales[date]) {
+        sales[date] = 0;
+      }
+      sales[date] += bill.totalAmount;
+    });
+    setSalesData(sales);
   };
 
   useEffect(() => {
@@ -106,7 +120,7 @@ const BillsPage = () => {
                     <tr className="tabletitle">
                       <td className="item"><h2>Item</h2></td>
                       <td className="Hours"><h2>Qty</h2></td>
-                      <td className="Rate"><h2>Price</h2></td>
+                      <td className="Rate"><h2>Price</ h2></td>
                       <td className="Rate"><h2>Total</h2></td>
                     </tr>
                     {selectedBill.cartItems.map((item) => (
@@ -148,5 +162,6 @@ const BillsPage = () => {
     </DefaultLayout>
   );
 };
+
 
 export default BillsPage;

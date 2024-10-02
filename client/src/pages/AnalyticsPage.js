@@ -1,106 +1,115 @@
-import React, { createContext, useState } from 'react';
+import React, { useState, useEffect, createContext, useContext } from 'react';
 import ReactDOM from 'react-dom';
-import { 
-  BarChart, 
-  LineChart, 
-  PieChart, 
-  ChartsXAxis, 
-  ChartsYAxis, 
-  ChartsTooltip, 
-  ChartsLegend 
-} from '@mui/x-charts';
+import { BarChart, Bar, LineChart, Line, PieChart, Pie, XAxis, YAxis, Tooltip, Legend, CartesianGrid } from 'recharts';
+import axios from 'axios';
 
-const ChartContext = React.createContext();
+// Create a context for sales data
+export const SalesDataContext = createContext();
 
-const ChartProvider = ({ children }) => {
-  const [chartData, setChartData] = useState({});
+// Create a provider for sales data
+export const SalesDataProvider = ({ children }) => {
+  const [salesData, setSalesData] = useState({});
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true); // Added loading state
+
+  useEffect(() => {
+    const fetchSalesData = async () => {
+      try {
+        const response = await axios.get('/api/bills/get-bills'); // Ensure this endpoint is correct
+        const data = response.data;
+        
+        // Transform the data based on the API response
+        const salesData = data.reduce((acc, bill) => {
+          const date = bill.date.substring(0, 10); // Assuming date is in a string format
+          const amount = bill.totalAmount;
+          acc[date] = (acc[date] || 0) + amount; // Summing amounts by date
+          return acc;
+        }, {});
+
+        setSalesData(salesData);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching sales data:', error);
+        setError(error.message);
+        setLoading(false);
+      }
+    };
+
+    fetchSalesData();
+  }, []);
 
   return (
-    <ChartContext.Provider value={{ chartData, setChartData }}>
+    <SalesDataContext.Provider value={{ salesData, error, loading }}>
       {children}
-    </ChartContext.Provider>
+    </SalesDataContext.Provider>
   );
 };
 
-const barData = [
-  { group: 'A', value: 10 },
-  { group: 'B', value: 20 },
-  { group: 'C', value: 30 },
-  { group: 'D', value: 40 },
-];
-
-const lineData = [
-  { x: 'Jan', y: 10 },
-  { x: 'Feb', y: 20 },
-  { x: 'Mar', y: 30 },
-  { x: 'Apr', y: 40 },
-];
-
-const pieData = [
-  { label: 'A', value: 10 },
-  { label: 'B', value: 20 },
-  { label: 'C', value: 30 },
-  { label: 'D', value: 40 },
-];
-
 const AnalyticsPage = () => {
+  const { salesData, error, loading } = useContext(SalesDataContext);
+
+  // Handle loading state
+  if (loading) {
+    return <div>Loading sales data...</div>;
+  }
+
+  // Handle error state
+  if (error) {
+    return (
+      <div>
+        <h2>Error</h2>
+        <p>{error}</p>
+      </div>
+    );
+  }
+
+  // Check if salesData is empty
+  if (!salesData || Object.keys(salesData).length === 0) {
+    return <div>No sales data available.</div>;
+  }
+
+  // Prepare data for charts
+  const chartData = Object.keys(salesData).map((date) => ({ date, value: salesData[date] }));
+
   return (
     <div>
       <h2>Bar Chart</h2>
-      <BarChart
-        xAxis={{
-          scaleType: 'band',
-          data: barData.map((item) => item.group),
-        }}
-        series={[
-          {
-            data: barData.map((item) => item.value),
-          },
-        ]}
-        width={500}
-        height={300}
-      >
-        <ChartsXAxis />
-        <ChartsYAxis />
-        <ChartsTooltip />
-        <ChartsLegend />
+      <BarChart width={500} height={300} data={chartData}>
+        <XAxis dataKey="date" />
+        <YAxis />
+        <Tooltip />
+        <Legend />
+        <CartesianGrid stroke="#ccc" />
+        <Bar dataKey="value" fill="#8884d8" />
       </BarChart>
 
       <h2>Line Chart</h2>
-      <LineChart
-        xAxis={{
-          data: lineData.map((item) => item.x),
-        }}
-        series={[
-          {
-            data: lineData.map((item) => item.y),
-          },
-        ]}
-        width={500}
-        height={300}
-      >
-        <ChartsXAxis />
-        <ChartsYAxis />
-        <ChartsTooltip />
-        <ChartsLegend />
+      <LineChart width={500} height={300} data={chartData}>
+        <XAxis dataKey="date" />
+        <YAxis />
+        <Tooltip />
+        <Legend />
+        <CartesianGrid stroke="#ccc" />
+        <Line type="monotone" dataKey="value" stroke="#8884d8" />
       </LineChart>
 
       <h2>Pie Chart</h2>
-      <PieChart
-        series={[
-          {
-            data: pieData,
-          },
-        ]}
-        width={400}
-        height={200}
-      >
-        <ChartsTooltip />
-        <ChartsLegend />
+      <PieChart width={400} height={400}>
+        <Pie
+          data={chartData}
+          dataKey="value"
+          nameKey="date"
+          cx="50%"
+          cy="50%"
+          outerRadius={100}
+          fill="#82ca9d"
+          label
+        />
+        <Tooltip />
+        <Legend />
       </PieChart>
     </div>
   );
 };
-
 
 export default AnalyticsPage;
