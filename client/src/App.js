@@ -1,5 +1,6 @@
 
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { SalesDataProvider } from './pages/AnalyticsPage';
 import CartPage from "./pages/CartPage";
 import Homepage from "./pages/Homepage";
 import ItemPage from "./pages/ItemPage";
@@ -48,9 +49,9 @@ function App() {
           <Route
             path="/analytics"
             element={
-              <ProtectedRoute>
+              <SalesDataProvider>
                 <AnalyticsPage />
-              </ProtectedRoute>
+              </SalesDataProvider>
             }
           />
           <Route
