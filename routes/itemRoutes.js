@@ -1,38 +1,26 @@
 const express = require("express");
 const multer = require("multer");
-
 const {
   getItemController,
   addItemController,
   editItemController,
   deleteItemController,
+  upload, // Import upload middleware
 } = require("./../controllers/itemController");
 
 const router = express.Router();
 
-// Multer configuration
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "uploads/"); // Ensure the uploads directory exists
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + '-' + file.originalname); // Rename file to avoid conflicts
-  },
-});
-const upload = multer({ storage: storage });
-
 // Routes
-
-// Method - GET
+// GET - Retrieve items
 router.get("/get-item", getItemController);
 
-// Method - POST
-router.post("/add-item", upload.single("image"), addItemController); // Handle image upload
+// POST - Add item with image upload
+router.post("/add-item", upload.single("image"), addItemController);
 
-// Method - PUT
-router.put("/edit-item", upload.single("image"), editItemController); // Handle image upload
+// PUT - Edit item with image upload
+router.put("/edit-item", upload.single("image"), editItemController);
 
-// Method - DELETE
-router.delete("/delete-item", deleteItemController);
+// DELETE - Delete item
+router.post("/delete-item", deleteItemController);
 
 module.exports = router;
