@@ -118,10 +118,12 @@ const ItemPage = () => {
     setLoading(true);
     const formData = new FormData();
 
+    // Append item details to formData
     Object.keys(value).forEach((key) => {
       formData.append(key, value[key]);
     });
 
+    // Append image to formData if exists
     if (image) {
       formData.append("image", image);
     }
@@ -134,9 +136,9 @@ const ItemPage = () => {
         message.success("Item Added Successfully");
         setNewItemCount((prevCount) => prevCount + 1);
       } else {
-        await axios.put("/api/items/edit-item", {
-          ...value,
-          itemId: editItem._id,
+        // Update item with new details
+        await axios.put("/api/items/edit-item", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
         });
         message.success("Item Updated Successfully");
       }
@@ -153,6 +155,7 @@ const ItemPage = () => {
   const handleCategorySubmit = async () => {
     const formData = new FormData();
     formData.append("name", categoryName);
+    // Append category image to formData if exists
     if (categoryImage) {
       formData.append("image", categoryImage);
     }
@@ -173,7 +176,7 @@ const ItemPage = () => {
   const categoryUploadProps = {
     beforeUpload: (file) => {
       setCategoryImage(file);
-      return false;
+      return false; // Prevent auto upload
     },
     onRemove: () => {
       setCategoryImage(null);
@@ -184,7 +187,7 @@ const ItemPage = () => {
   const uploadProps = {
     beforeUpload: (file) => {
       setImage(file);
-      return false;
+      return false; // Prevent auto upload
     },
     onRemove: () => {
       setImage(null);
@@ -281,7 +284,7 @@ const ItemPage = () => {
         >
           <Form layout="vertical" onFinish={handleCategorySubmit}>
             <Form.Item
-              name="categoryName"
+              name="name"
               label="Category Name"
               rules={[{ required: true }]}
             >
@@ -291,7 +294,7 @@ const ItemPage = () => {
               />
             </Form.Item>
 
-            <Form.Item label="Upload Category Image">
+            <Form.Item label="Upload Image" rules={[{ required: true }]}>
               <Upload {...categoryUploadProps}>
                 <Button>Upload Image</Button>
               </Upload>

@@ -1,4 +1,3 @@
-//itemController.js
 const itemModel = require("../models/itemModel");
 
 // get items
@@ -8,25 +7,17 @@ const getItemController = async (req, res) => {
     res.status(200).send(items);
   } catch (error) {
     console.log(error);
-     res.status(500).send("Server Error");
   }
 };
 
-// Add items
+//add items
 const addItemController = async (req, res) => {
   try {
-    const newItem = new itemModel({
-      name: req.body.name,
-      price: req.body.price,
-      size: req.body.size,
-      pieces: req.body.pieces,
-      category: req.body.category,
-      image: req.file.path, // Store the uploaded image path
-    });
+    const newItem = new itemModel(req.body);
     await newItem.save();
     res.status(201).send("Item Created Successfully!");
   } catch (error) {
-    res.status(400).send("Error creating item");
+    res.status(400).send("error", error);
     console.log(error);
   }
 };
@@ -40,7 +31,7 @@ const editItemController = async (req, res) => {
       new: true,
     });
 
-    res.status(200).json("item Updated");
+    res.status(201).json("item Updated");
   } catch (error) {
     res.status(400).send(error);
     console.log(error);

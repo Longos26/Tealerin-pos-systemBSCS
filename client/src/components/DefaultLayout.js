@@ -66,6 +66,13 @@ const DefaultLayout = ({ children }) => {
               Items
             </Link>
           </Menu.Item>
+
+          <Menu.Item key="/categories" icon={<BarChartOutlined />}>
+            <Link to="/categories" style={{ textDecoration: "none", color: "white" }}>
+            Add Category
+            </Link>
+          </Menu.Item>
+
           <Menu.Item key="/customers" icon={<UserOutlined />}>
             <Link to="/customers" style={{ textDecoration: "none", color: "white" }}>
               Customers
