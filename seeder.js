@@ -1,3 +1,4 @@
+//seeder.js
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const connectDb = require("./config/config");
