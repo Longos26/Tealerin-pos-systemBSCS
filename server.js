@@ -13,12 +13,15 @@ connectDb();
 //rest object
 const app = express();
 
+
+
 //middlwares
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(morgan("dev"));
+app.use("/uploads", express.static("uploads"));
 
 //routes
 app.use("/api/items", require("./routes/itemRoutes"));

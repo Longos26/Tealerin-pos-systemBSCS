@@ -1,4 +1,3 @@
-// In ItemPage.js
 import React, { useEffect, useState } from "react";
 import DefaultLayout from "../components/DefaultLayout";
 import { useDispatch } from "react-redux";
@@ -15,11 +14,19 @@ const ItemPage = () => {
   const [popupModal, setPopupModal] = useState(false);
   const [editItem, setEditItem] = useState(null);
   const [newItemCount, setNewItemCount] = useState(0);
-  const [imageFile, setImageFile] = useState(null); // State for image file
 
-  // Fetch all items function
+  // Fetch all items
   const getAllItems = async () => {
-    // Same as before...
+    try {
+      dispatch({ type: "SHOW_LOADING" });
+      const { data } = await axios.get("/api/items/get-item");
+      setItemsData(data);
+      setFilteredItems(data);
+      dispatch({ type: "HIDE_LOADING" });
+    } catch (error) {
+      dispatch({ type: "HIDE_LOADING" });
+      console.error(error);
+    }
   };
 
   // Load items on component mount
@@ -29,12 +36,39 @@ const ItemPage = () => {
 
   // Filter items based on search query
   useEffect(() => {
-    // Same as before...
+    const filtered = itemsData.filter((item) =>
+      item.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredItems(filtered);
   }, [searchQuery, itemsData]);
 
-  // Handle delete function
+  // Handle sorting by name (A-Z, Z-A)
+  const handleSort = () => {
+    const sortedData = [...filteredItems].sort((a, b) => {
+      if (sortOrder === "asc") {
+        return a.name.localeCompare(b.name);
+      } else {
+        return b.name.localeCompare(a.name);
+      }
+    });
+    setFilteredItems(sortedData);
+    setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+  };
+
+  // Handle delete
   const handleDelete = async (record) => {
-    // Same as before...
+    try {
+      dispatch({ type: "SHOW_LOADING" });
+      await axios.post("/api/items/delete-item", { itemId: record._id });
+      message.success("Item Deleted Successfully");
+      getAllItems();
+      setPopupModal(false);
+      dispatch({ type: "HIDE_LOADING" });
+    } catch (error) {
+      dispatch({ type: "HIDE_LOADING" });
+      message.error("Something Went Wrong");
+      console.error(error);
+    }
   };
 
   // Table columns
@@ -60,7 +94,6 @@ const ItemPage = () => {
             onClick={() => {
               setEditItem(record);
               setPopupModal(true);
-              setImageFile(null); // Reset image file on edit
             }}
           />
           <DeleteOutlined
@@ -74,23 +107,10 @@ const ItemPage = () => {
 
   // Handle form submit (Add/Edit)
   const handleSubmit = async (value) => {
-    const formData = new FormData(); // Create a FormData object
-    formData.append("name", value.name);
-    formData.append("price", value.price);
-    formData.append("size", value.size);
-    formData.append("pieces", value.pieces);
-    formData.append("category", value.category);
-    if (imageFile) {
-      formData.append("image", imageFile); // Append the image file
-    }
     if (editItem === null) {
       try {
         dispatch({ type: "SHOW_LOADING" });
-        await axios.post("/api/items/add-item", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data", // Set the correct content type
-          },
-        });
+        await axios.post("/api/items/add-item", value);
         message.success("Item Added Successfully");
         setNewItemCount(newItemCount + 1);
         getAllItems();
@@ -102,7 +122,6 @@ const ItemPage = () => {
         console.error(error);
       }
     } else {
-      // Handle editing similar to adding (you may want to adjust this)
       try {
         dispatch({ type: "SHOW_LOADING" });
         await axios.put("/api/items/edit-item", {
@@ -181,9 +200,48 @@ const ItemPage = () => {
               <Input />
             </Form.Item>
 
-            <Form.Item name="image" label="Image">
-              <Input type="file" onChange={(e) => setImageFile(e.target.files[0])} />
-            </Form.Item>
+            <Form
+  layout="vertical"
+  initialValues={editItem}
+  onFinish={handleSubmit}
+  encType="multipart/form-data" // Add this to handle file uploads
+>
+  <Form.Item name="name" label="Name">
+    <Input />
+  </Form.Item>
+
+  <Form.Item name="price" label="Price">
+    <Input />
+  </Form.Item>
+
+  <Form.Item name="size" label="Sizes">
+    <Input />
+  </Form.Item>
+
+  <Form.Item name="pieces" label="Pieces">
+    <Input />
+  </Form.Item>
+
+  {/* Image file upload */}
+  <Form.Item name="image" label="Image">
+    <Input type="file" />
+  </Form.Item>
+
+  <Form.Item name="category" label="Category">
+    <Select>
+      <Select.Option value="drinks">Drinks</Select.Option>
+      <Select.Option value="rice">Rice</Select.Option>
+      <Select.Option value="noodles">Noodles</Select.Option>
+    </Select>
+  </Form.Item>
+
+  <div className="d-flex justify-content-end">
+    <Button type="primary" htmlType="submit">
+      SAVE
+    </Button>
+  </div>
+</Form>
+
 
             <Form.Item name="category" label="Category">
               <Select>
