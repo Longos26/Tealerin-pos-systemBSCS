@@ -47,6 +47,10 @@ const SalesDataProvider = ({ children }) => {
 const AnalyticsPage = () => {
   const { salesData, error, loading } = useContext(SalesDataContext);
 
+  const [barChartVisible, setBarChartVisible] = useState(true);
+  const [lineChartVisible, setLineChartVisible] = useState(true);
+  const [pieChartVisible, setPieChartVisible] = useState(true);
+
   if (loading) return <div>Loading sales data...</div>;
   if (error) return <div>Error: {error}</div>;
   if (!Object.keys(salesData).length) return <div>No sales data available.</div>;
@@ -75,37 +79,26 @@ const AnalyticsPage = () => {
     Overall, the sales data suggests that ${highestSalesDate} was the best performing day, while ${lowestSalesDate} was the worst performing day.
   `;
 
+  // Function to toggle the visibility of each graph
+  const toggleBarChart = () => {
+    setBarChartVisible(!barChartVisible);
+  };
+
+  const toggleLineChart = () => {
+    setLineChartVisible(!lineChartVisible);
+  };
+
+  const togglePieChart = () => {
+    setPieChartVisible(!pieChartVisible);
+  };
+
   return (
     <DefaultLayout>
       <div className="d-flex justify-content-between">
         <h1>Sales Analytics</h1>
       </div>
+
       <div className="row">
-        <div className="col-md-8">
-          <BarChart width={500} height={300} data={chartData}>
-            <XAxis dataKey="date" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <CartesianGrid stroke="#ccc" />
-            <Bar dataKey="value" fill="#4CAF50" /> {/* Green color */}
-          </BarChart>
-
-          <LineChart width={500} height={300} data={chartData}>
-            <XAxis dataKey="date" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <CartesianGrid stroke="#ccc" />
-            <Line type="monotone" dataKey="value" stroke="#2196F3" /> {/* Blue color */}
-          </LineChart>
-
-          <PieChart width={400} height={400}>
-            <Pie data={chartData} dataKey="value" nameKey="date" cx="50%" cy="50%" outerRadius={100} fill="#FFC107" label /> {/* Orange color */}
-            <Tooltip />
-            <Legend />
-          </PieChart>
-        </div>
         <div className="col-md-4">
           <div className="card" style={{ height: '500px', overflowY: 'auto', fontFamily: 'Arial', fontSize: 14 }}>
             <div className="card-header">
@@ -113,7 +106,7 @@ const AnalyticsPage = () => {
             </div>
             <div className="card-body">
               <h1>Key Insights</h1>
-              <p>Total Sales: ₱{totalSales.toFixed(2)}</p>
+ <p>Total Sales: ₱{totalSales.toFixed(2)}</p>
               <p>Highest Sales Date: ₱{highestSalesDate}</p>
               <p>Lowest Sales Date: ₱{lowestSalesDate}</p>
               <p>Average Sales per Day: ₱{averageSalesPerDay.toFixed(2)}</p>
@@ -121,6 +114,60 @@ const AnalyticsPage = () => {
               <h1>Sales Interpretation</h1>
               <p>{interpretation}</p>
             </div>
+          </div>
+        </div>
+        <div className="col-md-4">
+          <div className="card" style={{ height: '500px', overflowY: 'auto', fontFamily: 'Arial', fontSize: 14 }}>
+            <div className="card-header">
+              <h1>Bar Chart</h1>
+              <button onClick={toggleBarChart}>{barChartVisible ? 'Hide' : 'Show'}</button>
+            </div>
+            {barChartVisible && (
+              <BarChart width={500} height={300} data={chartData}>
+                <XAxis dataKey="date" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <CartesianGrid stroke="#ccc" />
+                <Bar dataKey="value" fill="#4CAF50" /> {/* Green color */}
+              </BarChart>
+            )}
+          </div>
+        </div>
+        <div className="col-md-4">
+          <div className="card" style={{ height: '500px', overflowY: 'auto', fontFamily: 'Arial', fontSize: 14 }}>
+            <div className="card-header">
+              <h1>Line Chart</h1>
+              <button onClick={toggleLineChart}>{lineChartVisible ? 'Hide' : 'Show'}</button>
+            </div>
+            {lineChartVisible && (
+              <LineChart width={500} height={300} data={chartData}>
+                <XAxis dataKey="date" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <CartesianGrid stroke="#ccc" />
+                <Line type="monotone" dataKey="value" stroke="#2196F3" /> {/* Blue color */}
+              </LineChart>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <div className="row">
+        <div className="col-md-4">
+          <div className="card" style={{ height: '500px', overflowY: 'auto', fontFamily: 'Arial', fontSize: 14 }}>
+            <div className="card-header">
+              <h1>Pie Chart</h1>
+              <button onClick={togglePieChart}>{pieChartVisible ? 'Hide' : 'Show'}</button>
+            </div>
+            {pieChartVisible && (
+              <PieChart width={400} height={400}>
+                <Pie data={chartData} dataKey="value" nameKey="date" cx="50%" cy="50%" outerRadius={100} fill="#FFC107" label /> {/* Orange color */}
+                <Tooltip />
+                <Legend />
+              </PieChart>
+            )}
           </div>
         </div>
       </div>
