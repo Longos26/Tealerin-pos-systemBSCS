@@ -1,26 +1,24 @@
 const express = require("express");
-const multer = require("multer");
 const {
   getItemController,
   addItemController,
   editItemController,
   deleteItemController,
-  upload, // Import upload middleware
 } = require("./../controllers/itemController");
 
 const router = express.Router();
 
-// Routes
-// GET - Retrieve items
+//routes
+//Method - get
 router.get("/get-item", getItemController);
 
-// POST - Add item with image upload
-router.post("/add-item", upload.single("image"), addItemController);
+//MEthod - POST
+router.post("/add-item", addItemController);
 
-// PUT - Edit item with image upload
-router.put("/edit-item", upload.single("image"), editItemController);
+//method - PUT
+router.put("/edit-item", editItemController);
 
-// DELETE - Delete item
+//method - DELETE
 router.post("/delete-item", deleteItemController);
 
 module.exports = router;
