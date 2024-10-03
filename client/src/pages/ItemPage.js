@@ -200,48 +200,9 @@ const ItemPage = () => {
               <Input />
             </Form.Item>
 
-            <Form
-  layout="vertical"
-  initialValues={editItem}
-  onFinish={handleSubmit}
-  encType="multipart/form-data" // Add this to handle file uploads
->
-  <Form.Item name="name" label="Name">
-    <Input />
-  </Form.Item>
-
-  <Form.Item name="price" label="Price">
-    <Input />
-  </Form.Item>
-
-  <Form.Item name="size" label="Sizes">
-    <Input />
-  </Form.Item>
-
-  <Form.Item name="pieces" label="Pieces">
-    <Input />
-  </Form.Item>
-
-  {/* Image file upload */}
-  <Form.Item name="image" label="Image">
-    <Input type="file" />
-  </Form.Item>
-
-  <Form.Item name="category" label="Category">
-    <Select>
-      <Select.Option value="drinks">Drinks</Select.Option>
-      <Select.Option value="rice">Rice</Select.Option>
-      <Select.Option value="noodles">Noodles</Select.Option>
-    </Select>
-  </Form.Item>
-
-  <div className="d-flex justify-content-end">
-    <Button type="primary" htmlType="submit">
-      SAVE
-    </Button>
-  </div>
-</Form>
-
+            <Form.Item name="image" label="Image URL">
+              <Input />
+            </Form.Item>
 
             <Form.Item name="category" label="Category">
               <Select>

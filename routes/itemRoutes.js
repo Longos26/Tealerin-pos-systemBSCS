@@ -1,6 +1,4 @@
 const express = require("express");
-const multer = require("multer");
-
 const {
   getItemController,
   addItemController,
@@ -10,17 +8,7 @@ const {
 
 const router = express.Router();
 
-// Multer setup
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "uploads/"); // Folder to store images
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + "-" + file.originalname); // Save with a unique name
-  },
-});
-
-const upload = multer({ storage: storage });
+//routes
 //Method - get
 router.get("/get-item", getItemController);
 
