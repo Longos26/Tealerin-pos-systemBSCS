@@ -2,33 +2,39 @@ const express = require("express");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const dotanv = require("dotenv");
+const dotenv = require("dotenv");
 const { bgCyan } = require("colors");
 require("colors");
 const connectDb = require("./config/config");
-//dotenv config
-dotanv.config();
-//db config
+
+// dotenv config
+dotenv.config();
+
+// db config
 connectDb();
-//rest object
+
+// rest object
 const app = express();
 
-//middlwares
+// middlewares
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(morgan("dev"));
 
-//routes
+// Serve static files from the uploads directory
+app.use("/uploads", express.static("uploads")); // Serve images from the uploads directory
+
+// routes
 app.use("/api/items", require("./routes/itemRoutes"));
 app.use("/api/users", require("./routes/userRoutes"));
 app.use("/api/bills", require("./routes/billsRoute"));
 
-//port
+// port
 const PORT = process.env.PORT || 8080;
 
-//listen
+// listen
 app.listen(PORT, () => {
   console.log(`Server Running On Port ${PORT}`.bgCyan.white);
 });
