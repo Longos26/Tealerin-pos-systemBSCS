@@ -8,7 +8,7 @@ const items = [
     pieces: 0,
     category: "drinks",
     image:
-      "drinkss.jpg",
+      "https://img.etimg.com/photo/msid-69212931,quality-100/chai-itself-was-once-a-trend-that-developed-this-way-.jpg",
   },
   {
     name: "coffee",
@@ -16,7 +16,7 @@ const items = [
     size: "R,L,G",
     pieces: 0,
     category: "drinks",
-    image: "drinks.jpg",
+    image: "https://i.cdn.newsbytesapp.com/images/l110_14211532861690.jpg",
   },
   {
     name: "Chicken Biryani",
@@ -25,7 +25,7 @@ const items = [
     pieces: 0,
     category: "rice",
     image:
-      "chicken.jpg",
+      "https://www.licious.in/blog/wp-content/uploads/2020/12/Hyderabadi-chicken-Biryani.jpg",
   },
   {
     name: "Veg Biryani",
@@ -34,7 +34,7 @@ const items = [
     pieces: 0,
     category: "rice",
     image:
-      "rice.jpg",
+      "https://www.indianveggiedelight.com/wp-content/uploads/2020/04/veg-biryani-instant-pot-featured.jpg",
   },
   {
     name: "Chicken Hakka",
@@ -42,7 +42,7 @@ const items = [
     size: "R,L,G",
     pieces: 0,
     category: "noodles",
-    image: "tea.jpg",
+    image: "https://cravecookclick.com/wp-content/uploads/2012/07/IMG_4400.jpg",
   },
   {
     name: "Eggy",
@@ -50,7 +50,7 @@ const items = [
     size: "R,L,G",
     pieces: 0,
     category: "noodles",
-    image:"assets/peppermint-tea-on-teacup-1417945-1200x826.jpg"
+    image:"assets/peppermint-tea-on-teacup-1417945-1200x826.jpg.webp"
   },
 ];
 module.exports = items;

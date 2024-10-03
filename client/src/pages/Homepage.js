@@ -7,27 +7,9 @@ import ItemList from "../components/ItemList";
 
 const Homepage = () => {
   const [itemsData, setItemsData] = useState([]);
+  const [categoriesData, setCategoriesData] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
-
-  const categories = [
-    {
-      name: "all",
-      imageUrl: "https://cdn-icons-png.flaticon.com/512/4473/4473598.png",
-    },
-    {
-      name: "drinks",
-      imageUrl: "https://cdn-icons-png.flaticon.com/512/430/430561.png",
-    },
-    {
-      name: "rice",
-      imageUrl: "https://cdn-icons-png.flaticon.com/512/3174/3174880.png",
-    },
-    {
-      name: "noodles",
-      imageUrl: "https://cdn-icons-png.flaticon.com/512/1471/1471262.png",
-    },
-  ];
 
   const dispatch = useDispatch();
 
@@ -42,7 +24,18 @@ const Homepage = () => {
         console.log(error);
       }
     };
+
+    const getAllCategories = async () => {
+      try {
+        const { data } = await axios.get("/api/categories/get-categories");
+        setCategoriesData(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     getAllItems();
+    getAllCategories();
   }, [dispatch]);
 
   const handleSearchChange = (e) => {
@@ -52,25 +45,28 @@ const Homepage = () => {
   return (
     <DefaultLayout>
       <div className="d-flex">
-        {categories.map((category) => (
-          <div
-            key={category.name}
-            className={`d-flex category ${
-              selectedCategory === category.name && "category-active"
-            }`}
-            onClick={() => setSelectedCategory(category.name)}
-          >
-            <h4>{category.name}</h4>
-            <img
-              src={category.imageUrl}
-              alt={category.name}
-              height="40"
-              width="60"
-            />
-          </div>
-        ))}
+        <div style={{ overflowX: "auto", whiteSpace: "nowrap" }}>
+          {categoriesData.map((category) => (
+            <div
+              key={category.name}
+              className={`d-flex category ${
+                selectedCategory === category.name && "category-active"
+              }`}
+              onClick={() => setSelectedCategory(category.name)}
+              style={{ display: "inline-block", cursor: "pointer" }}
+            >
+              <h4>{category.name}</h4>
+              <img
+                src={category.image}
+                alt={category.name}
+                height="40"
+                width="60"
+              />
+            </div>
+          ))}
+        </div>
       </div>
-      
+
       <Input
         placeholder="Search items..."
         value={searchTerm}
@@ -81,7 +77,7 @@ const Homepage = () => {
       <Row>
         {itemsData
           .filter((item) =>
-            item.name.toLowerCase().includes(searchTerm.toLowerCase()) && 
+            item.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
             (item.category === selectedCategory || selectedCategory === "all")
           )
           .map((item) => (
