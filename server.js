@@ -13,8 +13,6 @@ connectDb();
 //rest object
 const app = express();
 
-
-
 //middlwares
 app.use(cors());
 app.use(express.json());

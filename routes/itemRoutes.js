@@ -1,4 +1,6 @@
 const express = require("express");
+const multer = require("multer");
+
 const {
   getItemController,
   addItemController,
@@ -8,17 +10,29 @@ const {
 
 const router = express.Router();
 
-//routes
-//Method - get
+// Multer configuration
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads/"); // Ensure the uploads directory exists
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname); // Rename file to avoid conflicts
+  },
+});
+const upload = multer({ storage: storage });
+
+// Routes
+
+// Method - GET
 router.get("/get-item", getItemController);
 
-//MEthod - POST
-router.post("/add-item", addItemController);
+// Method - POST
+router.post("/add-item", upload.single("image"), addItemController); // Handle image upload
 
-//method - PUT
-router.put("/edit-item", editItemController);
+// Method - PUT
+router.put("/edit-item", upload.single("image"), editItemController); // Handle image upload
 
-//method - DELETE
-router.post("/delete-item", deleteItemController);
+// Method - DELETE
+router.delete("/delete-item", deleteItemController);
 
 module.exports = router;

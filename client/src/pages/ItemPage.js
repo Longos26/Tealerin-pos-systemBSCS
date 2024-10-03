@@ -14,6 +14,7 @@ const ItemPage = () => {
   const [popupModal, setPopupModal] = useState(false);
   const [editItem, setEditItem] = useState(null);
   const [newItemCount, setNewItemCount] = useState(0);
+  const [imageFile, setImageFile] = useState(null); // State to hold the uploaded image file
 
   // Fetch all items
   const getAllItems = async () => {
@@ -93,6 +94,7 @@ const ItemPage = () => {
             style={{ cursor: "pointer", marginRight: 10 }}
             onClick={() => {
               setEditItem(record);
+              setImageFile(null); // Reset image file when editing
               setPopupModal(true);
             }}
           />
@@ -107,36 +109,44 @@ const ItemPage = () => {
 
   // Handle form submit (Add/Edit)
   const handleSubmit = async (value) => {
-    if (editItem === null) {
-      try {
-        dispatch({ type: "SHOW_LOADING" });
-        await axios.post("/api/items/add-item", value);
+    const formData = new FormData(); // Create a FormData object to handle file uploads
+
+    // Append item details to FormData
+    formData.append("name", value.name);
+    formData.append("price", value.price);
+    formData.append("size", value.size);
+    formData.append("pieces", value.pieces);
+    formData.append("category", value.category);
+    if (imageFile) {
+      formData.append("image", imageFile); // Append the image file if it exists
+    }
+
+    try {
+      dispatch({ type: "SHOW_LOADING" });
+      if (editItem === null) {
+        // Add new item
+        await axios.post("/api/items/add-item", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
         message.success("Item Added Successfully");
         setNewItemCount(newItemCount + 1);
-        getAllItems();
-        setPopupModal(false);
-        dispatch({ type: "HIDE_LOADING" });
-      } catch (error) {
-        dispatch({ type: "HIDE_LOADING" });
-        message.error("Something Went Wrong");
-        console.error(error);
-      }
-    } else {
-      try {
-        dispatch({ type: "SHOW_LOADING" });
-        await axios.put("/api/items/edit-item", {
-          ...value,
-          itemId: editItem._id,
+      } else {
+        // Update existing item
+        formData.append("itemId", editItem._id); // Append item ID for update
+        await axios.put("/api/items/edit-item", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
         });
         message.success("Item Updated Successfully");
-        getAllItems();
-        setPopupModal(false);
-        dispatch({ type: "HIDE_LOADING" });
-      } catch (error) {
-        dispatch({ type: "HIDE_LOADING" });
-        message.error("Something Went Wrong");
-        console.error(error);
       }
+      getAllItems();
+      setPopupModal(false);
+      dispatch({ type: "HIDE_LOADING" });
+      setImageFile(null); // Reset image file
+      setEditItem(null); // Reset edit item
+    } catch (error) {
+      dispatch({ type: "HIDE_LOADING" });
+      message.error("Something Went Wrong");
+      console.error(error);
     }
   };
 
@@ -176,6 +186,7 @@ const ItemPage = () => {
           onCancel={() => {
             setEditItem(null);
             setPopupModal(false);
+            setImageFile(null); // Reset image file
           }}
           footer={false}
         >
@@ -200,8 +211,8 @@ const ItemPage = () => {
               <Input />
             </Form.Item>
 
-            <Form.Item name="image" label="Image URL">
-              <Input />
+            <Form.Item label="Image">
+              <Input type="file" onChange={(e) => setImageFile(e.target.files[0])} />
             </Form.Item>
 
             <Form.Item name="category" label="Category">
