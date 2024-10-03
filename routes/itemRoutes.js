@@ -1,5 +1,6 @@
 const express = require("express");
 const multer = require("multer");
+const path = require("path"); // Import path for file handling
 const {
   getItemController,
   addItemController,

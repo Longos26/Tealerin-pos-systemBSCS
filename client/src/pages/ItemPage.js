@@ -61,7 +61,7 @@ const ItemPage = () => {
       dispatch({ type: "SHOW_LOADING" });
       await axios.post("/api/items/delete-item", { itemId: record._id });
       message.success("Item Deleted Successfully");
-      getAllItems();
+      getAllItems();n
       setPopupModal(false);
       dispatch({ type: "HIDE_LOADING" });
     } catch (error) {
