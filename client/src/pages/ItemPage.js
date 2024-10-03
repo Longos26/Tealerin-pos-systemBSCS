@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import DefaultLayout from "../components/DefaultLayout";
 import { useDispatch } from "react-redux";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined, UploadOutlined } from "@ant-design/icons";
 import axios from "axios";
-import { Modal, Button, Table, Form, Input, Select, message } from "antd";
+import { Modal, Button, Table, Form, Input, Select, message, Upload } from "antd";
 
 const ItemPage = () => {
   const dispatch = useDispatch();
@@ -184,11 +184,19 @@ const ItemPage = () => {
             initialValues={editItem}
             onFinish={handleSubmit}
           >
-            <Form.Item name="name" label="Name">
+            <Form.Item
+              name="name"
+              label="Name"
+              rules={[{ required: true, message: "Please enter the name!" }]}
+            >
               <Input />
             </Form.Item>
 
-            <Form.Item name="price" label="Price">
+            <Form.Item
+              name="price"
+              label="Price"
+              rules={[{ required: true, message: "Please enter the price!" }]}
+            >
               <Input />
             </Form.Item>
 
@@ -200,8 +208,17 @@ const ItemPage = () => {
               <Input />
             </Form.Item>
 
-            <Form.Item name="image" label="Image URL">
-              <Input />
+            {/* Image Upload */}
+            <Form.Item
+              name="image"
+              label="Image"
+              valuePropName="fileList"
+              getValueFromEvent={(e) => (Array.isArray(e) ? e : e?.fileList)}
+              rules={[{ required: true, message: "Please upload an image!" }]}
+            >
+              <Upload beforeUpload={() => false} listType="picture">
+                <Button icon={<UploadOutlined />}>Upload Product Image</Button>
+              </Upload>
             </Form.Item>
 
             <Form.Item name="category" label="Category">
