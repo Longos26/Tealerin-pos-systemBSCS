@@ -61,11 +61,19 @@ const DefaultLayout = ({ children }) => {
             Sales
             </Link>
           </Menu.Item>
+
+          <Menu.Item key="/categories" icon={<CopyOutlined />}>
+            <Link to="/categories" style={{ textDecoration: "none", color: "white" }}>
+            Add New Category
+            </Link>
+          </Menu.Item>
+
           <Menu.Item key="/items" icon={<UnorderedListOutlined />}>
             <Link to="/items" style={{ textDecoration: "none", color: "white" }}>
               Items
             </Link>
           </Menu.Item>
+
           <Menu.Item key="/customers" icon={<UserOutlined />}>
             <Link to="/customers" style={{ textDecoration: "none", color: "white" }}>
               Customers

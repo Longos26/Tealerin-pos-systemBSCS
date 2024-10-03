@@ -1,4 +1,4 @@
-//test data
+//data.js
 
 const items = [
   {

@@ -37,9 +37,10 @@ const Homepage = () => {
         dispatch({ type: "SHOW_LOADING" });
         const { data } = await axios.get("/api/items/get-item");
         setItemsData(data);
-        dispatch({ type: "HIDE_LOADING" });
       } catch (error) {
-        console.log(error);
+        console.error("Error fetching items:", error);
+      } finally {
+        dispatch({ type: "HIDE_LOADING" });
       }
     };
     getAllItems();
@@ -56,7 +57,7 @@ const Homepage = () => {
           <div
             key={category.name}
             className={`d-flex category ${
-              selectedCategory === category.name && "category-active"
+              selectedCategory === category.name ? "category-active" : ""
             }`}
             onClick={() => setSelectedCategory(category.name)}
           >
@@ -70,7 +71,7 @@ const Homepage = () => {
           </div>
         ))}
       </div>
-      
+
       <Input
         placeholder="Search items..."
         value={searchTerm}
@@ -81,7 +82,7 @@ const Homepage = () => {
       <Row>
         {itemsData
           .filter((item) =>
-            item.name.toLowerCase().includes(searchTerm.toLowerCase()) && 
+            item.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
             (item.category === selectedCategory || selectedCategory === "all")
           )
           .map((item) => (
