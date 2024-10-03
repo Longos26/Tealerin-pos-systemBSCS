@@ -6,6 +6,8 @@ import DefaultLayout from "../components/DefaultLayout";
 // Create a context for sales data
 const SalesDataContext = createContext();
 
+//ahskasjkah
+
 // Provider for sales data
 const SalesDataProvider = ({ children }) => {
   const [salesData, setSalesData] = useState({});
