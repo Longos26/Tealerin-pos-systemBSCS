@@ -223,4 +223,5 @@ const CategoryPage = () => {
   );
 };
 
+// Importing the necessary components from the Ant Design library       
 export default CategoryPage;

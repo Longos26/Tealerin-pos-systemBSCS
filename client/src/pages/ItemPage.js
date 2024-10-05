@@ -12,12 +12,9 @@ const ItemPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOrder, setSortOrder] = useState(null); // 'asc' or 'desc'
   const [popupModal, setPopupModal] = useState(false);
-  const [categoryModal, setCategoryModal] = useState(false); 
   const [editItem, setEditItem] = useState(null);
   const [newItemCount, setNewItemCount] = useState(0);
-  const [imageFile, setImageFile] = useState(null);
-  const [categoryImage, setCategoryImage] = useState(null);
-  const [categoryName, setCategoryName] = useState("");
+  const [imageUrl, setImageUrl] = useState(""); // Change imageFile to imageUrl
 
   // Fetch all items
   const getAllItems = async () => {
@@ -95,7 +92,7 @@ const ItemPage = () => {
             style={{ cursor: "pointer", marginRight: 10 }}
             onClick={() => {
               setEditItem(record);
-              setImageFile(null);
+              setImageUrl(record.image || ""); // Reset imageUrl when editing
               setPopupModal(true);
             }}
           />
@@ -116,9 +113,7 @@ const ItemPage = () => {
     formData.append("size", value.size);
     formData.append("pieces", value.pieces);
     formData.append("category", value.category);
-    if (imageFile) {
-      formData.append("image", imageFile);
-    }
+    formData.append("image", imageUrl); // Use imageUrl instead of imageFile
 
     try {
       dispatch({ type: "SHOW_LOADING" });
@@ -137,37 +132,12 @@ const ItemPage = () => {
       }
       getAllItems();
       setPopupModal(false);
-      setImageFile(null);
+      setImageUrl(""); // Reset imageUrl after submission
       setEditItem(null);
       dispatch({ type: "HIDE_LOADING" });
     } catch (error) {
       dispatch({ type: "HIDE_LOADING" });
       message.error("Failed to save item.");
-      console.error(error);
-    }
-  };
-
-  // Handle category submit
-  const handleCategorySubmit = async () => {
-    const formData = new FormData();
-    formData.append("name", categoryName);
-    if (categoryImage) {
-      formData.append("image", categoryImage);
-    }
-
-    try {
-      dispatch({ type: "SHOW_LOADING" });
-      await axios.post("/api/categories/add-category", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-      message.success("Category Added Successfully");
-      setCategoryModal(false);
-      setCategoryName("");
-      setCategoryImage(null);
-      dispatch({ type: "HIDE_LOADING" });
-    } catch (error) {
-      dispatch({ type: "HIDE_LOADING" });
-      message.error("Failed to add category.");
       console.error(error);
     }
   };
@@ -179,13 +149,6 @@ const ItemPage = () => {
         <div>
           <Button type="primary" onClick={() => setPopupModal(true)}>
             Add Item
-          </Button>
-          <Button
-            type="default"
-            onClick={() => setCategoryModal(true)}
-            style={{ marginLeft: 10 }}
-          >
-            Add Category
           </Button>
         </div>
       </div>
@@ -218,7 +181,7 @@ const ItemPage = () => {
           onCancel={() => {
             setEditItem(null);
             setPopupModal(false);
-            setImageFile(null);
+            setImageUrl(""); // Reset imageUrl on cancel
           }}
           footer={false}
         >
@@ -249,8 +212,11 @@ const ItemPage = () => {
               <Input />
             </Form.Item>
 
-            <Form.Item label="Image">
-              <Input type="file" onChange={(e) => setImageFile(e.target.files[0])} />
+            <Form.Item label="Image URL" rules={[{ required: true, message: "Please enter image URL." }]}>
+              <Input
+                value={imageUrl}
+                onChange={(e) => setImageUrl(e.target.value)} // Update imageUrl on input change
+              />
             </Form.Item>
 
             <Form.Item name="category" label="Category" rules={[{ required: true, message: "Please select a category." }]}>
@@ -264,42 +230,6 @@ const ItemPage = () => {
             <div className="d-flex justify-content-end">
               <Button type="primary" htmlType="submit">
                 SAVE
-              </Button>
-            </div>
-          </Form>
-        </Modal>
-      )}
-
-      {/* Category Modal */}
-      {categoryModal && (
-        <Modal
-          title="Add New Category"
-          visible={categoryModal}
-          onCancel={() => {
-            setCategoryModal(false);
-            setCategoryName("");
-            setCategoryImage(null);
-          }}
-          footer={false}
-        >
-          <Form layout="vertical" onFinish={handleCategorySubmit}>
-            <Form.Item label="Category Name" rules={[{ required: true, message: "Please enter category name." }]}>
-              <Input
-                value={categoryName}
-                onChange={(e) => setCategoryName(e.target.value)}
-              />
-            </Form.Item>
-
-            <Form.Item label="Category Image">
-              <Input
-                type="file"
-                onChange={(e) => setCategoryImage(e.target.files[0])}
-              />
-            </Form.Item>
-
-            <div className="d-flex justify-content-end">
-              <Button type="primary" htmlType="submit">
-                Add Category
               </Button>
             </div>
           </Form>
