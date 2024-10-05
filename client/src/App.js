@@ -9,7 +9,7 @@ import Register from "./pages/Register";
 import BillsPage from "./pages/BillsPage";
 import CutomerPage from "./pages/CutomerPage";
 import AnalyticsPage from "./pages/AnalyticsPage";
-import CategoryPage from "./pages/Categorypage";
+import Categorypage from "./pages/Categorypage";
 function App() {
   return (
     <>
@@ -35,7 +35,7 @@ function App() {
             path="/categoriess"
             element={
               <ProtectedRoute>
-                <CategoryPage />
+                <Categorypage />
               </ProtectedRoute>
             }
           />
