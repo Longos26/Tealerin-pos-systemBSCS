@@ -1,19 +1,22 @@
-const itemModel = require("../models/itemModel");
+const categoryModel = require("../models/categoryModel");
+//const itemModel = require("../models/itemModel");
 
-// get items
-const getItemController = async (req, res) => {
+// get categories
+const getCategoryController = async (req, res) => {
   try {
-    const items = await itemModel.find();
-    res.status(200).send(items);
+    const categories = await categoryModel.find();
+    res.status(200).send(categories);
   } catch (error) {
     console.log(error);
   }
 };
 
-//add items
-const addItemController = async (req, res) => {
+
+
+//add categories
+const addCategoryController = async (req, res) => {
   try {
-    const newItem = new itemModel(req.body);
+    const newItem = new categoryModel(req.body);
     await newItem.save();
     res.status(201).send("Item Created Successfully!");
   } catch (error) {
