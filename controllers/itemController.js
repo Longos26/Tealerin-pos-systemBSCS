@@ -2,10 +2,10 @@ const categoryModel = require("../models/categoryModel");
 //const itemModel = require("../models/itemModel");
 
 // get categories
-const getCategoryController = async (req, res) => {
+const getItemController = async (req, res) => {
   try {
-    const categories = await categoryModel.find();
-    res.status(200).send(categories);
+    const items = await itemModel.find();
+    res.status(200).send(items);
   } catch (error) {
     console.log(error);
   }
@@ -14,9 +14,9 @@ const getCategoryController = async (req, res) => {
 
 
 //add categories
-const addCategoryController = async (req, res) => {
+const addItemController = async (req, res) => {
   try {
-    const newItem = new categoryModel(req.body);
+    const newItem = new itemModel(req.body);
     await newItem.save();
     res.status(201).send("Item Created Successfully!");
   } catch (error) {

@@ -7,7 +7,7 @@ const categorySchema = mongoose.Schema(
       required: true,
     },
     CategoryImage: {
-      type: Blob,
+      type: String,
       required: true,
     },
 },

@@ -3,25 +3,12 @@ import DefaultLayout from "../components/DefaultLayout";
 import { useDispatch } from "react-redux";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import axios from "axios";
-import { Modal, Button, Table, Form, Input, Select, message } from "antd";
-
-
-// const CategoryPage = () => {
-//   const dispatch = useDispatch();
-//   const [itemsData, setItemsData] = useState([]);
-//   const [filteredItems, setFilteredItems] = useState([]); 
-//   const [searchQuery, setSearchQuery] = useState("");
-//   const [sortOrder, setSortOrder] = useState(null); // 'asc' or 'desc'
-//   const [popupModal, setPopupModal] = useState(false);
-//   const [categoryModal, setCategoryModal] = useState(false); 
-//   const [editItem, setEditItem] = useState(null);
-//   const [newItemCount, setNewItemCount] = useState(0);
-//   const [imageFile, setImageFile] = useState(null);
+import { Modal, Button, Table, Form, Input, message } from "antd";
 
 const CategoryPage = () => {
   const dispatch = useDispatch();
-  const [categoriessData, setCategoriesData] = useState([]);
-  const [filteredCategories, setFilteredCategories] = useState([]); 
+  const [categoriesData, setCategoriesData] = useState([]);
+  const [filteredCategories, setFilteredCategories] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOrder, setSortOrder] = useState(null); // 'asc' or 'desc'
   const [popupModal, setPopupModal] = useState(false);
@@ -29,8 +16,7 @@ const CategoryPage = () => {
   const [newCategoryCount, setNewCategoryCount] = useState(0);
   const [imageFile, setImageFile] = useState(null);
 
-
-//Fetch all items
+  // Fetch all categories
   const getAllCategories = async () => {
     try {
       dispatch({ type: "SHOW_LOADING" });
@@ -40,26 +26,25 @@ const CategoryPage = () => {
       dispatch({ type: "HIDE_LOADING" });
     } catch (error) {
       dispatch({ type: "HIDE_LOADING" });
-      message.error("Failed to fetch categoriess.");
+      message.error("Failed to fetch categories.");
       console.error(error);
     }
   };
 
-  // Load items on component mount
+  // Load categories on component mount
   useEffect(() => {
-    getAllCategories ();
+    getAllCategories();
   }, []);
 
-//////////////////////////////////Filter items based on search query
+  // Filter categories based on search query
   useEffect(() => {
-    const filtered = categoriessData.filter((category) =>
+    const filtered = categoriesData.filter((category) =>
       category.CategoryName.toLowerCase().includes(searchQuery.toLowerCase())
     );
-
     setFilteredCategories(filtered);
-  }, [searchQuery, categoriessData]);
+  }, [searchQuery, categoriesData]);
 
-  ////////////////////////////////Handle sorting by name (A-Z, Z-A)
+  // Handle sorting by name (A-Z, Z-A)
   const handleSort = () => {
     const sortedData = [...filteredCategories].sort((a, b) => {
       return sortOrder === "asc"
@@ -87,9 +72,9 @@ const CategoryPage = () => {
 
   // Table columns
   const columns = [
-    { title: "Categoryname", dataIndex: "CategoryName" },
+    { title: "Category Name", dataIndex: "CategoryName" },
     {
-      title: "Categoryimage",
+      title: "Category Image",
       dataIndex: "CategoryImage",
       render: (CategoryImage, record) => (
         <img src={CategoryImage} alt={record.CategoryName} height="60" width="60" />
@@ -117,14 +102,7 @@ const CategoryPage = () => {
     },
   ];
 
-//  Handle form submit (Add/Edit Item)
-// const handleSubmit = async (value) => {
-//     const formData = new FormData();
-//     formData.append("name", value.name);
-//     if (imageFile) {
-//       formData.append("image", imageFile);
-    }
-
+  // Handle form submit (Add/Edit Category)
   const handleSubmit = async (value) => {
     const formData = new FormData();
     formData.append("CategoryName", value.CategoryName);
@@ -159,8 +137,6 @@ const CategoryPage = () => {
     }
   };
 
-
-
   return (
     <DefaultLayout>
       <div className="d-flex justify-content-between">
@@ -169,14 +145,13 @@ const CategoryPage = () => {
           <Button type="primary" onClick={() => setPopupModal(true)}>
             Add Category
           </Button>
-
         </div>
       </div>
 
       {/* Search and Sort */}
       <div className="d-flex justify-content-between my-3">
         <Input
-          placeholder="Search categoriess"
+          placeholder="Search categories"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
@@ -185,18 +160,18 @@ const CategoryPage = () => {
         </Button>
       </div>
 
-      {/* Single Table rendering filteredItems */}
+      {/* Table rendering filtered categories */}
       <Table columns={columns} dataSource={filteredCategories} bordered />
 
-      {/* New Item Count */}
+      {/* New Category Count */}
       <div className="my-3">
-        <p>New Category Added: {newCategoryCount}</p>
+        <p>New Categories Added: {newCategoryCount}</p>
       </div>
 
-      {/* Item Popup Modal */}
+      {/* Category Popup Modal */}
       {popupModal && (
         <Modal
-          title={`${editCategory !== null ? "Edit Category " : "Add New Category"}`}
+          title={`${editCategory !== null ? "Edit Category" : "Add New Category"}`}
           visible={popupModal}
           onCancel={() => {
             setEditCategory(null);
@@ -209,19 +184,20 @@ const CategoryPage = () => {
             layout="vertical"
             initialValues={{
               CategoryName: editCategory?.CategoryName || "",
-              
             }}
             onFinish={handleSubmit}
           >
-            <Form.Item name="CategoryName" label="Name" rules={[{ required: true, message: "Please enter Category Name." }]}>
+            <Form.Item
+              name="CategoryName"
+              label="Category Name"
+              rules={[{ required: true, message: "Please enter Category Name." }]}
+            >
               <Input />
             </Form.Item>
 
-
-            <Form.Item label="Image">
+            <Form.Item label="Category Image">
               <Input type="file" onChange={(e) => setImageFile(e.target.files[0])} />
             </Form.Item>
-
 
             <div className="d-flex justify-content-end">
               <Button type="primary" htmlType="submit">
@@ -233,6 +209,6 @@ const CategoryPage = () => {
       )}
     </DefaultLayout>
   );
-
+};
 
 export default CategoryPage;
