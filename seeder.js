@@ -21,7 +21,6 @@ const importData = async () => {
   }
 
   
-  
 };
 
 importData();
