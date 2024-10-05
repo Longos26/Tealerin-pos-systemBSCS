@@ -9,6 +9,7 @@ import Register from "./pages/Register";
 import BillsPage from "./pages/BillsPage";
 import CutomerPage from "./pages/CutomerPage";
 import AnalyticsPage from "./pages/AnalyticsPage";
+import CategoryPage from "./pages/CategoryPage";
 function App() {
   return (
     <>

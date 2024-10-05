@@ -52,6 +52,12 @@ const DefaultLayout = ({ children }) => {
             </Link>
             </Menu.Item>
 
+            <Menu.Item key="/categoriess" icon={<CopyOutlined />}>
+            <Link to="/categoriess" style={{ textDecoration: "none", color: "white" }}>
+              Add New Categories
+            </Link>
+          </Menu.Item>
+
           <Menu.Item key="/bills" icon={<CopyOutlined />}>
             <Link to="/bills" style={{ textDecoration: "none", color: "white" }}>
               Bills
