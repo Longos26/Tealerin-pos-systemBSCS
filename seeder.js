@@ -19,6 +19,8 @@ const importData = async () => {
     console.log(`${error}`.bgRed.inverse);
     process.exit(1);
   }
+
+  
 };
 
 importData();
