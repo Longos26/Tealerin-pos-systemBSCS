@@ -1,6 +1,6 @@
 const itemModel = require("../models/itemModel");
 
-// get categories
+// get items
 const getItemController = async (req, res) => {
   try {
     const items = await itemModel.find();
@@ -10,9 +10,7 @@ const getItemController = async (req, res) => {
   }
 };
 
-
-
-//add categories
+//add items
 const addItemController = async (req, res) => {
   try {
     const newItem = new itemModel(req.body);
