@@ -81,12 +81,13 @@ const Homepage = () => {
 
       <Row>
         {itemsData
-          .filter((item) =>
-            item.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-            (item.category === selectedCategory || selectedCategory === "all")
+          .filter(
+            (item) =>
+              item.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+              (item.category === selectedCategory || selectedCategory === "all")
           )
           .map((item) => (
-            <Col xs={24} lg={6} md={12} sm={6} key={item.id}>
+            <Col xs={24} lg={6} md={12} sm={8} key={item._id}>
               <ItemList item={item} />
             </Col>
           ))}

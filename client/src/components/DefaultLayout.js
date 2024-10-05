@@ -48,7 +48,7 @@ const DefaultLayout = ({ children }) => {
         >
           <Menu.Item key="/" icon={<HomeOutlined />}>
             <Link to="/" style={{ textDecoration: "none", color: "white" }}>
-              Home
+              Menu
             </Link>
           </Menu.Item>
           <Menu.Item key="/bills" icon={<CopyOutlined />}>
@@ -59,12 +59,6 @@ const DefaultLayout = ({ children }) => {
           <Menu.Item key="/analytics" icon={<BarChartOutlined />}>
             <Link to="/analytics" style={{ textDecoration: "none", color: "white" }}>
             Sales
-            </Link>
-          </Menu.Item>
-
-          <Menu.Item key="/categories" icon={<CopyOutlined />}>
-            <Link to="/categories" style={{ textDecoration: "none", color: "white" }}>
-            Add New Category
             </Link>
           </Menu.Item>
 
