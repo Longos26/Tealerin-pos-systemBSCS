@@ -8,6 +8,8 @@ require("colors");
 dotenv.config();
 connectDb();
 
+
+
 //function seeder
 const importData = async () => {
   try {
