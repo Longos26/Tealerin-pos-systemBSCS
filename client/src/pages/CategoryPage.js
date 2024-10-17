@@ -10,12 +10,12 @@ const CategoryPage = () => {
   const [categoriesData, setCategoriesData] = useState([]);
   const [filteredCategories, setFilteredCategories] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [sortOrder, setSortOrder] = useState(null); // 'asc' or 'desc'
+  const [sortOrder, setSortOrder] = useState(null);
   const [popupModal, setPopupModal] = useState(false);
   const [editCategory, setEditCategory] = useState(null);
   const [newCategoryCount, setNewCategoryCount] = useState(0);
   const [imageFile, setImageFile] = useState(null);
-  const [loading, setLoading] = useState(false); // Loading state
+  const [loading, setLoading] = useState(false);
 
   // Fetch all categories
   const getAllCategories = async () => {
@@ -25,13 +25,12 @@ const CategoryPage = () => {
       const { data } = await axios.get("/api/categoriess/get-category");
       setCategoriesData(data);
       setFilteredCategories(data);
-      setLoading(false);
-      dispatch({ type: "HIDE_LOADING" });
     } catch (error) {
-      setLoading(false);
-      dispatch({ type: "HIDE_LOADING" });
       message.error("Failed to fetch categories.");
       console.error(error);
+    } finally {
+      setLoading(false);
+      dispatch({ type: "HIDE_LOADING" });
     }
   };
 
@@ -48,7 +47,7 @@ const CategoryPage = () => {
     setFilteredCategories(filtered);
   }, [searchQuery, categoriesData]);
 
-  // Handle sorting by name (A-Z, Z-A)
+  // Handle sorting by name
   const handleSort = () => {
     const sortedData = [...filteredCategories].sort((a, b) => {
       return sortOrder === "asc"
@@ -63,14 +62,14 @@ const CategoryPage = () => {
   const handleDelete = async (record) => {
     try {
       dispatch({ type: "SHOW_LOADING" });
-      await axios.post("/api/categoriess/delete-category", { categoryId: record._id });
+      await axios.delete(`/api/categoriess/delete-category/${record._id}`);
       message.success("Category Deleted Successfully");
       getAllCategories();
-      dispatch({ type: "HIDE_LOADING" });
     } catch (error) {
-      dispatch({ type: "HIDE_LOADING" });
       message.error("Failed to delete category.");
       console.error(error);
+    } finally {
+      dispatch({ type: "HIDE_LOADING" });
     }
   };
 
@@ -124,18 +123,18 @@ const CategoryPage = () => {
         setNewCategoryCount((prevCount) => prevCount + 1);
       } else {
         formData.append("categoryId", editCategory._id);
-        await axios.put("/api/categoriess/edit-category", formData, {
+        await axios.put(`/api/categoriess/edit-category/${editCategory._id}`, formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
         message.success("Category Updated Successfully");
       }
       getAllCategories();
       closeModal();
-      dispatch({ type: "HIDE_LOADING" });
     } catch (error) {
-      dispatch({ type: "HIDE_LOADING" });
       message.error("Failed to save category.");
       console.error(error);
+    } finally {
+      dispatch({ type: "HIDE_LOADING" });
     }
   };
 
@@ -177,51 +176,48 @@ const CategoryPage = () => {
       </div>
 
       {/* Category Popup Modal */}
-      {popupModal && (
-        <Modal
-          title={`${editCategory !== null ? "Edit Category" : "Add New Category"}`}
-          visible={popupModal}
-          onCancel={closeModal}
-          footer={null}
+      <Modal
+        title={`${editCategory !== null ? "Edit Category" : "Add New Category"}`}
+        open={popupModal}
+        onCancel={closeModal}
+        footer={null}
+      >
+        <Form
+          layout="vertical"
+          initialValues={{
+            Cname: editCategory?.Cname || "",
+          }}
+          onFinish={handleSubmit}
         >
-          <Form
-            layout="vertical"
-            initialValues={{
-              Cname: editCategory?.Cname || "",
-            }}
-            onFinish={handleSubmit}
+          <Form.Item
+            name="Cname"
+            label="Category Name"
+            rules={[{ required: true, message: "Please enter Category Name." }]}
           >
-            <Form.Item
-              name="Cname"
-              label="Category Name"
-              rules={[{ required: true, message: "Please enter Category Name." }]}
-            >
-              <Input />
-            </Form.Item>
+            <Input />
+          </Form.Item>
 
-            <Form.Item label="Category Image">
-              <Input type="file" onChange={(e) => setImageFile(e.target.files[0])} />
-            </Form.Item>
+          <Form.Item label="Category Image">
+            <Input type="file" onChange={(e) => setImageFile(e.target.files[0])} />
+          </Form.Item>
 
-            {/* Preview selected image */}
-            {imageFile && (
-              <div>
-                <p>Selected Image:</p>
-                <img src={URL.createObjectURL(imageFile)} alt="Preview" height="60" width="60" />
-              </div>
-            )}
-
-            <div className="d-flex justify-content-end">
-              <Button type="primary" htmlType="submit">
-                SAVE
-              </Button>
+          {/* Preview selected image */}
+          {imageFile && (
+            <div>
+              <p>Selected Image:</p>
+              <img src={URL.createObjectURL(imageFile)} alt="Preview" height="60" width="60" />
             </div>
-          </Form>
-        </Modal>
-      )}
+          )}
+
+          <div className="d-flex justify-content-end">
+            <Button type="primary" htmlType="submit">
+              SAVE
+            </Button>
+          </div>
+        </Form>
+      </Modal>
     </DefaultLayout>
   );
 };
 
-// Importing the necessary components from the Ant Design library       
 export default CategoryPage;

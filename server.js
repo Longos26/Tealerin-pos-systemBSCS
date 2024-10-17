@@ -5,6 +5,8 @@ const cors = require("cors");
 const dotanv = require("dotenv");
 const { bgCyan } = require("colors");
 require("colors");
+const multer = require('multer');
+const path = require('path');
 const connectDb = require("./config/config");
 //dotenv config
 dotanv.config();
@@ -12,6 +14,36 @@ dotanv.config();
 connectDb();
 //rest object
 const app = express();
+
+// Set up storage for uploaded files
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads'); // Ensure this directory exists
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname)); // Append timestamp to the filename
+  },
+});
+
+// Initialize multer with the storage configuration
+const upload = multer({ storage });
+
+// Create the upload route
+app.post('/api/categoriess/add-category', upload.single('Cimage'), (req, res) => {
+  if (!req.file) {
+    return res.status(400).send('No file uploaded.');
+  }
+  
+  // Handle the category data (e.g., save to database)
+  const categoryData = {
+    Cname: req.body.Cname,
+    Cimage: `http://localhost:8080/uploads/${req.file.filename}`, // Adjust URL as needed
+  };
+
+  // Save categoryData to your database here...
+
+  res.status(200).json({ message: 'Category added successfully', category: categoryData });
+});
 
 //middlwares
 app.use(cors());

@@ -11,7 +11,8 @@ import {
   CopyOutlined,
   UnorderedListOutlined,
   ShoppingCartOutlined,
-  BarChartOutlined
+  BarChartOutlined,
+  AppstoreAddOutlined
 } from "@ant-design/icons";
 import "../styles/DefaultLayout.css";
 const { Header, Sider, Content } = Layout;
@@ -52,9 +53,9 @@ const DefaultLayout = ({ children }) => {
             </Link>
             </Menu.Item>
 
-            <Menu.Item key="/categoriess" icon={<CopyOutlined />}>
+          <Menu.Item key="/categoriess" icon={<AppstoreAddOutlined />}>
             <Link to="/categoriess" style={{ textDecoration: "none", color: "white" }}>
-              Add New Categories
+             New Categories
             </Link>
           </Menu.Item>
 
