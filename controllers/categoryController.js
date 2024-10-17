@@ -1,52 +1,78 @@
 const categoryModel = require("../models/categoryModel");
 
-// get items
+// Constants for status codes and messages
+const STATUS_CODES = {
+  SUCCESS: 200,
+  CREATED: 201,
+  BAD_REQUEST: 400,
+};
+
+const MESSAGES = {
+  CATEGORY_CREATED: "Category Created Successfully!",
+  CATEGORY_UPDATED: "Category Updated Successfully!",
+  CATEGORY_DELETED: "Category Deleted Successfully!",
+  CATEGORY_NOT_FOUND: "Category not found.",
+  SERVER_ERROR: "Something went wrong. Please try again.",
+};
+
+// Get all categories
 const getCategoryController = async (req, res) => {
   try {
-    const categoriess = await categoryModel.find(); //items=categoriess //itemModel=categoryModel
-    res.status(200).send(categoriess);
+    const categories = await categoryModel.find();
+    res.status(STATUS_CODES.SUCCESS).json(categories);
   } catch (error) {
-    console.log(error);
+    console.error("Error fetching categories:", error);
+    res.status(STATUS_CODES.BAD_REQUEST).json({ error: MESSAGES.SERVER_ERROR });
   }
 };
 
-//add items
-const addCategoryController = async (req, res) => { //newItem = newCategory
-  try {
-    const newCategory = new categoryModel(req.body);
-    await newCategory.save();
-    res.status(201).send("Category Created Successfully!");
-  } catch (error) {
-    res.status(400).send("error", error);
-    console.log(error);
-  }
-};
-
-//update item
+// Update category
 const editCategoryController = async (req, res) => {
   try {
-    const { categoryId } = req.body; //itemId = categoryId
-    console.log(categoryId);
-    await categoryModel.findOneAndUpdate({ _id: categoryId }, req.body, {
-      new: true,
-    });
+    const { categoryId } = req.body;
+    const updatedCategory = await categoryModel.findByIdAndUpdate(categoryId, req.body, { new: true });
 
-    res.status(201).json("category Updated");
+    if (!updatedCategory) {
+      return res.status(STATUS_CODES.BAD_REQUEST).json({ error: MESSAGES.CATEGORY_NOT_FOUND });
+    }
+
+    res.status(STATUS_CODES.CREATED).json({ message: MESSAGES.CATEGORY_UPDATED });
   } catch (error) {
-    res.status(400).send(error);
-    console.log(error);
+    console.error("Error updating category:", error);
+    res.status(STATUS_CODES.BAD_REQUEST).json({ error: MESSAGES.SERVER_ERROR });
   }
 };
-//delete item
+
+// Delete category
 const deleteCategoryController = async (req, res) => {
   try {
     const { categoryId } = req.body;
-    console.log(categoryId);
-    await categoryModel.findOneAndDelete({ _id: categoryId });
-    res.status(200).json("category Deleted");
+    const deletedCategory = await categoryModel.findByIdAndDelete(categoryId);
+
+    if (!deletedCategory) {
+      return res.status(STATUS_CODES.BAD_REQUEST).json({ error: MESSAGES.CATEGORY_NOT_FOUND });
+    }
+
+    res.status(STATUS_CODES.SUCCESS).json({ message: MESSAGES.CATEGORY_DELETED });
   } catch (error) {
-    res.status(400).send(error);
-    console.log(error);
+    console.error("Error deleting category:", error);
+    res.status(STATUS_CODES.BAD_REQUEST).json({ error: MESSAGES.SERVER_ERROR });
+  }
+};
+
+// Add category
+const addCategoryController = async (req, res) => {
+  try {
+    const { Cname } = req.body;
+    const Cimage = req.file ? `http://localhost:${process.env.PORT || 8080}/uploads/${req.file.filename}` : null;
+
+    const newCategory = new categoryModel({ Cname, Cimage });
+    await newCategory.save();
+
+    res.status(STATUS_CODES.CREATED).json({ message: MESSAGES.CATEGORY_CREATED, category: newCategory });
+  } catch (error) {
+    console.error("Error creating category:", error);
+    res.status(STATUS_CODES.BAD_REQUEST).json({ error: MESSAGES.SERVER_ERROR });
   }
 };
 

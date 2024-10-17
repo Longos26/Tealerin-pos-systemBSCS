@@ -7,7 +7,7 @@ body {
 .item-button button {
     margin-top: 20px;
     width: 200px;
-    background-color: rgb(34, 78, 9);
+    background-color:#32a852;
     color: white;
 }
 
@@ -37,7 +37,7 @@ body {
 }
 
 .category-active {
-    border: 2px solid green;
+    border: 2px solid#32a852;
     background-color: rgba(128, 128, 128, 0.501);
 }
 
@@ -65,12 +65,12 @@ body {
 
 .regsiter-form h1 {
     text-align: center;
-    background-color: rgb(2, 2, 75);
+    background-color: #32a852;
     color: white;
     padding: 10px;
 }
 
 .regsiter-form h3 {
-    color: rgb(4, 4, 113);
+    color: #32a852;
     text-align: center;
 }

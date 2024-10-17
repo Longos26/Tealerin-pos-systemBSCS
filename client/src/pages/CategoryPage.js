@@ -7,7 +7,7 @@ import { Modal, Button, Table, Form, Input, message } from "antd";
 
 const CategoryPage = () => {
   const dispatch = useDispatch();
-  const [categoriesData, setCategoriesData] = useState([]);
+  const [categoriesData , setCategoriesData] = useState([]);
   const [filteredCategories, setFilteredCategories] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOrder, setSortOrder] = useState(null);
@@ -75,10 +75,11 @@ const CategoryPage = () => {
 
   // Table columns
   const columns = [
-    { title: "Category Name", dataIndex: "Cname" },
+    { title: "Category Name", dataIndex: "Cname", key: "Cname" }, // Add key
     {
       title: "Category Image",
       dataIndex: "Cimage",
+      key: "Cimage", // Add key
       render: (Cimage, record) => (
         <img src={Cimage} alt={record.Cname} height="60" width="60" />
       ),
@@ -86,6 +87,7 @@ const CategoryPage = () => {
     {
       title: "Actions",
       dataIndex: "_id",
+      key: "_id", // Add key
       render: (id, record) => (
         <div>
           <EditOutlined
@@ -105,7 +107,7 @@ const CategoryPage = () => {
     },
   ];
 
-  // Handle form submit (Add/Edit Category)
+    // Handle form submit (Add/Edit Category)
   const handleSubmit = async (value) => {
     const formData = new FormData();
     formData.append("Cname", value.Cname);
@@ -116,19 +118,22 @@ const CategoryPage = () => {
     try {
       dispatch({ type: "SHOW_LOADING" });
       if (editCategory === null) {
+        // Adding a new category
         await axios.post("/api/categoriess/add-category", formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
         message.success("Category Added Successfully");
         setNewCategoryCount((prevCount) => prevCount + 1);
       } else {
+        // Editing an existing category
         formData.append("categoryId", editCategory._id);
         await axios.put(`/api/categoriess/edit-category/${editCategory._id}`, formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
         message.success("Category Updated Successfully");
       }
-      getAllCategories();
+      // Refresh the category list after add/edit
+      await getAllCategories(); // Ensure this is awaited
       closeModal();
     } catch (error) {
       message.error("Failed to save category.");
@@ -218,6 +223,6 @@ const CategoryPage = () => {
       </Modal>
     </DefaultLayout>
   );
-};
+ };
 
 export default CategoryPage;
